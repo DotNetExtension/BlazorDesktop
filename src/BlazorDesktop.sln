@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorDesktop", "BlazorDesktop\BlazorDesktop.csproj", "{36822AC5-A3A4-4AFA-A3EC-0C9F7DBFAC39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorDesktop.Sample", "BlazorDesktop.Sample\BlazorDesktop.Sample.csproj", "{A05779F3-CE78-4455-BBCB-FF1ED77CD5E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorDesktop.Sample", "BlazorDesktop.Sample\BlazorDesktop.Sample.csproj", "{A05779F3-CE78-4455-BBCB-FF1ED77CD5E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorDesktop.Templates", "BlazorDesktop.Templates\BlazorDesktop.Templates.csproj", "{69F353B9-60B3-4E9B-87EE-4A628A3CFA81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A05779F3-CE78-4455-BBCB-FF1ED77CD5E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A05779F3-CE78-4455-BBCB-FF1ED77CD5E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A05779F3-CE78-4455-BBCB-FF1ED77CD5E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69F353B9-60B3-4E9B-87EE-4A628A3CFA81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69F353B9-60B3-4E9B-87EE-4A628A3CFA81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69F353B9-60B3-4E9B-87EE-4A628A3CFA81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69F353B9-60B3-4E9B-87EE-4A628A3CFA81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
