@@ -9,6 +9,4 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddSingleton<WeatherForecastService>();
 
-builder.Window.UseFrame(false);
-
 await builder.Build().RunAsync();
