@@ -3,7 +3,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/AndrewBabbitt97/BlazorDesktop?style=for-the-badge)](https://github.com/AndrewBabbitt97/BlazorDesktop/issues)
 
 # Blazor Desktop
-Blazor Desktop allows you to create desktop apps using Blazor. Apps run inside of a .NET generic host and run inside of a WPF window.
+Blazor Desktop allows you to create desktop apps using Blazor. Apps run inside of a .NET generic host with a WPF window thats fully managed using a similar template to Blazor WASM.
 ![app](https://user-images.githubusercontent.com/2308261/153133429-7e1cdebd-72d0-4d61-91d9-eb14089cf9fc.png)
 
 # Getting Started
