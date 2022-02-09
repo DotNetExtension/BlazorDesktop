@@ -70,7 +70,7 @@ public class ConfigureWindowBuilder
     /// <summary>
     /// If the window can be resized.
     /// </summary>
-    /// <param name="isResizable">If the window is resizable.</param>
+    /// <param name="resizable">If the window is resizable.</param>
     /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
     public ConfigureWindowBuilder UseResizable(bool resizable)
     {
@@ -81,7 +81,7 @@ public class ConfigureWindowBuilder
     /// <summary>
     /// Uses a specific icon for the window.
     /// </summary>
-    /// <param name="isResizable">The icon.</param>
+    /// <param name="icon">The icon.</param>
     /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
     public ConfigureWindowBuilder UseIcon(string icon)
     {

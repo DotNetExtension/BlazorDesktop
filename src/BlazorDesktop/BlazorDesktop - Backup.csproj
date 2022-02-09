@@ -36,26 +36,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\assets\nuget.png">
-      <Pack>true</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\..\LICENSE.txt">
-      <Pack>true</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="6.0.101-preview.11.2349" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.635-beta">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
-  <PropertyGroup>
-    <NoWarn>NU5104</NoWarn>
-  </PropertyGroup>
 
 </Project>
