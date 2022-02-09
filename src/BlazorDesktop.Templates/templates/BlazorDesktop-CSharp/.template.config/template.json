@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Andrew Babbitt",
+  "classifications": [
+    "Web",
+    "Blazor"
+  ],
+  "name": "Blazor Desktop App",
+  "description": "A project template for creating a Blazor desktop app that runs client-side inside an WPF app. This template can be used for desktop apps with rich dynamic user interfaces (UIs).",
+  "groupIdentity": "BlazorDesktop.Hosting",
+  "precedence": "8000",
+  "identity": "BlazorDesktop.Hosting.6.0",
+  "shortName": "blazordesktop",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "BlazorDesktop-CSharp",
+  "preferNameDirectory": true,
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+      "exclude": [
+        ".template.config/**"
+      ]
+    }
+  ],
+  "primaryOutputs": [
+    {
+      "path": "BlazorDesktop-CSharp.csproj"
+    }
+  ],
+  "defaultName": "BlazorApp",
+  "postActions": [
+    {
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore'"
+        }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
+}
