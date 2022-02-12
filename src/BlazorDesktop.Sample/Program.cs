@@ -1,4 +1,8 @@
-﻿using BlazorDesktop.Data;
+﻿// Licensed to the Blazor Desktop Contributors under one or more agreements.
+// The Blazor Desktop Contributors licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using BlazorDesktop.Data;
 using BlazorDesktop.Hosting;
 using BlazorDesktop.Sample;
 using Microsoft.AspNetCore.Components.Web;

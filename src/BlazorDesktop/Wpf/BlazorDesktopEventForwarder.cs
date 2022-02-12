@@ -2,8 +2,7 @@
 // The Blazor Desktop Contributors licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.Win32;
-using Windows.Win32.Foundation;
+using System.Runtime.InteropServices;
 
 namespace BlazorDesktop.Wpf;
 
@@ -42,7 +41,25 @@ public class BlazorDesktopEventForwarder
     /// </summary>
     public void MouseDownDrag()
     {
-        PInvoke.ReleaseCapture();
-        PInvoke.SendMessage(new HWND(_target), WM_NCLBUTTONDOWN, HTCAPTION, 0);
+        ReleaseCapture();
+        SendMessage(_target, WM_NCLBUTTONDOWN, HTCAPTION, 0);
     }
+
+    /// <summary>
+    /// Sends the specified message to a window or windows. The SendMessage function calls the window procedure for the specified window and does not return until the window procedure has processed the message.
+    /// </summary>
+    /// <param name="hWnd">A handle to the window whose window procedure will receive the message.</param>
+    /// <param name="msg">The message to be sent.</param>
+    /// <param name="wParam">Additional message-specific information.</param>
+    /// <param name="lParam">Additional message-specific information.</param>
+    /// <returns>The return value specifies the result of the message processing; it depends on the message sent.</returns>
+    [DllImport("User32", ExactSpelling = true, EntryPoint = "SendMessageW", SetLastError = true)]
+    internal static extern nint SendMessage(IntPtr hWnd, uint msg, uint wParam, nint lParam);
+
+    /// <summary>
+    /// Releases the mouse capture from a window in the current thread and restores normal mouse input processing.
+    /// </summary>
+    /// <returns>If the function succeeds, the return value is true. If the function fails, the return value is false.</returns>
+    [DllImport("User32", ExactSpelling = true, SetLastError = true)]
+    internal static extern bool ReleaseCapture();
 }
