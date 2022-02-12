@@ -10,7 +10,7 @@ Blazor Desktop allows you to create desktop apps using Blazor. Apps run inside o
 The easiest way to get started with Blazor Desktop is to install the templates, you can do so using the dotnet cli as follows:
 
 ```powershell
-dotnet new --install BlazorDesktop.Templates::1.0.3
+dotnet new --install BlazorDesktop.Templates::1.0.4
 ```
 
 Once you have the templates installed, you can either create a new project from the template either in Visual Studio in the template picker:
@@ -86,7 +86,7 @@ It is also possible to configure these values through `appsettings.json` like so
   "Logging": {
     "LogLevel": {
       "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
+      "Microsoft.Hosting.Lifetime": "Information"
     }
   }
 }
