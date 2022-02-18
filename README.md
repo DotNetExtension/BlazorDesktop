@@ -69,7 +69,7 @@ builder.Window.UseFrame(false);
 
 And change your window icon (uses `wwwroot/favicon.ico` as the default):
 ```csharp
-builder.Window.UseFrame(false);
+builder.Window.UseIcon("myicon.ico");
 ```
 
 It is also possible to configure these values through `appsettings.json` like so:
