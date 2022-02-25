@@ -88,4 +88,15 @@ public class ConfigureWindowBuilder
         _config[WindowDefaults.Icon] = icon;
         return this;
     }
+
+    /// <summary>
+    /// If the WebView2 installer should be used.
+    /// </summary>
+    /// <param name="installer">If the WebView2 installer should be used.</param>
+    /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
+    public ConfigureWindowBuilder UseWebView2Installer(bool installer)
+    {
+        _config[WindowDefaults.WebView2Installer] = installer.ToString();
+        return this;
+    }
 }

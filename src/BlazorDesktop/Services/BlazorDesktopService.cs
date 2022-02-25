@@ -4,6 +4,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
+using BlazorDesktop.Hosting;
+using WebView2.Runtime.AutoInstaller;
 
 namespace BlazorDesktop.Services;
 
@@ -28,15 +30,22 @@ public class BlazorDesktopService : IHostedService, IDisposable
     private readonly IServiceProvider _services;
 
     /// <summary>
+    /// The configuration.
+    /// </summary>
+    private readonly IConfiguration _config;
+
+    /// <summary>
     /// Creates a <see cref="BlazorDesktopService"/> instance.
     /// </summary>
     /// <param name="lifetime">The <see cref="IHostApplicationLifetime"/>.</param>
     /// <param name="services">The <see cref="IServiceProvider"/>.</param>
-    public BlazorDesktopService(IHostApplicationLifetime lifetime, IServiceProvider services)
+    /// <param name="config">The <see cref="IConfiguration"/>.</param>
+    public BlazorDesktopService(IHostApplicationLifetime lifetime, IServiceProvider services, IConfiguration config)
     {
         _applicationStoppingRegistration = new();
         _lifetime = lifetime;
         _services = services;
+        _config = config;
     }
 
     /// <summary>
@@ -44,18 +53,21 @@ public class BlazorDesktopService : IHostedService, IDisposable
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task that represents starting the service.</returns>
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
         _applicationStoppingRegistration = _lifetime.ApplicationStopping.Register(() =>
         {
             OnApplicationStopping();
         });
 
+        if (_config.GetValue<bool?>(WindowDefaults.WebView2Installer) ?? true)
+        {
+            await WebView2AutoInstaller.CheckAndInstallAsync(silentInstall: false, cancellationToken: cancellationToken);
+        }
+
         var thread = new Thread(ApplicationThread);
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
-
-        return Task.CompletedTask;
     }
 
     /// <summary>

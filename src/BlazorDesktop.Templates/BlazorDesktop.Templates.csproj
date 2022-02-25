@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0.4</PackageVersion>
+    <PackageVersion>1.0.5</PackageVersion>
     <PackageId>BlazorDesktop.Templates</PackageId>
     <Title>Blazor Desktop Templates</Title>
     <Authors>Andrew Babbitt</Authors>

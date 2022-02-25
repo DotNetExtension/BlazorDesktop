@@ -10,7 +10,7 @@ Blazor Desktop allows you to create desktop apps using Blazor. Apps run inside o
 The easiest way to get started with Blazor Desktop is to install the templates, you can do so using the dotnet cli as follows:
 
 ```powershell
-dotnet new --install BlazorDesktop.Templates::1.0.4
+dotnet new --install BlazorDesktop.Templates::1.0.5
 ```
 
 Once you have the templates installed, you can either create a new project from the template either in Visual Studio in the template picker:
@@ -90,6 +90,11 @@ It is also possible to configure these values through `appsettings.json` like so
     }
   }
 }
+```
+
+Blazor Desktop will automatically install WebView2 for the user if they do not already have it installed, you can disable this if you wish:
+```csharp
+builder.Window.UseWebView2Installer(false);
 ```
 
 **The `Window` object itself is also made available inside of the DI container, so you can access all properties on it by using the inject Razor keyword or requesting it through the constructor of a class added as a service.**
