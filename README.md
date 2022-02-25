@@ -92,6 +92,11 @@ It is also possible to configure these values through `appsettings.json` like so
 }
 ```
 
+Blazor Desktop will automatically install WebView2 for the user if they do not already have it installed, you can disable this if you wish:
+```csharp
+builder.Window.UseWebView2Installer(false);
+```
+
 **The `Window` object itself is also made available inside of the DI container, so you can access all properties on it by using the inject Razor keyword or requesting it through the constructor of a class added as a service.**
 
 ## Custom Window Chrome & Draggable Regions
