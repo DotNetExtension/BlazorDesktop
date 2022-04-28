@@ -23,7 +23,7 @@ jobs:
           dotnet-version: "6.0.101"
 
       - name: Run linters
-        uses: AndrewBabbitt97/lint-action@v1.12.0
+        uses: AndrewBabbitt97/lint-action@v2.0.0
         with:
           continue_on_error: false
           dotnet_format: true
