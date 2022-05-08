@@ -39,23 +39,35 @@ public sealed class BlazorDesktopHost : IHost, IAsyncDisposable
     /// </summary>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/>.</param>
     /// <returns>A task that represents the startup of the <see cref="BlazorDesktopHost"/>.</returns>
-    public Task StartAsync(CancellationToken cancellationToken = default) => _host.StartAsync(cancellationToken);
+    public Task StartAsync(CancellationToken cancellationToken = default)
+    {
+        return _host.StartAsync(cancellationToken);
+    }
 
     /// <summary>
     /// Shuts down the host.
     /// </summary>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/>.</param>
     /// <returns>A task that represents the shutdown of the <see cref="BlazorDesktopHost"/>.</returns>
-    public Task StopAsync(CancellationToken cancellationToken = default) => _host.StopAsync(cancellationToken);
+    public Task StopAsync(CancellationToken cancellationToken = default)
+    {
+        return _host.StopAsync(cancellationToken);
+    }
 
     /// <summary>
     /// Disposes the host.
     /// </summary>
-    public void Dispose() => _host.Dispose();
+    public void Dispose()
+    {
+        _host.Dispose();
+    }
 
     /// <summary>
     /// Disposes the host asynchronously.
     /// </summary>
     /// <returns></returns>
-    public ValueTask DisposeAsync() => ((IAsyncDisposable)_host).DisposeAsync();
+    public ValueTask DisposeAsync()
+    {
+        return ((IAsyncDisposable)_host).DisposeAsync();
+    }
 }

@@ -71,7 +71,10 @@ public sealed class BlazorDesktopHostBuilder
     /// </summary>
     /// <param name="args">The arguments passed to the application's main method.</param>
     /// <returns>A <see cref="BlazorDesktopHostBuilder"/>.</returns>
-    public static BlazorDesktopHostBuilder CreateDefault(string[]? args = default) => new(args);
+    public static BlazorDesktopHostBuilder CreateDefault(string[]? args = default)
+    {
+        return new(args);
+    }
 
     /// <summary>
     /// Builds a <see cref="BlazorDesktopHost"/> instance based on the configuration of this builder.
