@@ -13,4 +13,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddSingleton<WeatherForecastService>();
 
+if (builder.HostEnvironment.IsDevelopment())
+{
+    builder.UseDeveloperTools();
+}
+
 await builder.Build().RunAsync();

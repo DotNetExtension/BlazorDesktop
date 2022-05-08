@@ -90,7 +90,7 @@ public sealed class BlazorDesktopHostBuilder
         })
         .ConfigureServices(services =>
         {
-            services.AddBlazorWebView();
+            services.AddWpfBlazorWebView();
 
             services.AddSingleton(HostEnvironment);
             services.AddSingleton(RootComponents);
@@ -106,6 +106,16 @@ public sealed class BlazorDesktopHostBuilder
         });
 
         return new(builder.Build());
+    }
+
+    /// <summary>
+    /// Adds Chromium dev tools to the Blazor Desktop application.
+    /// </summary>
+    /// <returns>The <see cref="BlazorDesktopHostBuilder"/>.</returns>
+    public BlazorDesktopHostBuilder UseDeveloperTools()
+    {
+        Services.AddBlazorWebViewDeveloperTools();
+        return this;
     }
 
     /// <summary>

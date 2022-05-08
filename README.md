@@ -10,7 +10,7 @@ Blazor Desktop allows you to create desktop apps using Blazor. Apps run inside o
 The easiest way to get started with Blazor Desktop is to install the templates, you can do so using the dotnet cli as follows:
 
 ```powershell
-dotnet new --install BlazorDesktop.Templates::1.0.5
+dotnet new --install BlazorDesktop.Templates::1.1.0
 ```
 
 Once you have the templates installed, you can either create a new project from the template either in Visual Studio in the template picker:
@@ -35,6 +35,11 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddSingleton<WeatherForecastService>();
+
+if (builder.HostEnvironment.IsDevelopment())
+{
+    builder.UseDeveloperTools();
+}
 
 await builder.Build().RunAsync();
 ```

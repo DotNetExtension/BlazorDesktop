@@ -80,7 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
         {
             Selector = c.Selector,
             ComponentType = c.ComponentType,
-            Parameters = (IDictionary<string, object>)c.Parameters.ToDictionary()
+            Parameters = (IDictionary<string, object?>)c.Parameters.ToDictionary()
         });
         _config = config;
         _environment = environment;
