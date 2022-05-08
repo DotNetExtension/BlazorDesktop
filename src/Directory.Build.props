@@ -7,24 +7,4 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <Version>1.1.0</Version>
-    <PackageVersion>1.1.0</PackageVersion>
-    <FileVersion>1.1.0.0</FileVersion>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <Authors>Andrew Babbitt</Authors>
-    <Company>Andrew Babbitt</Company>
-    <Product>Blazor Desktop</Product>
-    <RepositoryUrl>https://github.com/AndrewBabbitt97/BlazorDesktop</RepositoryUrl>
-    <PackageReleaseNotes>https://github.com/AndrewBabbitt97/BlazorDesktop/releases</PackageReleaseNotes>
-    <Description>A framework for building desktop applications using Blazor.</Description>
-    <Copyright>© Andrew Babbitt. All rights reserved.</Copyright>
-    <PackageProjectUrl>https://github.com/AndrewBabbitt97/BlazorDesktop</PackageProjectUrl>
-    <PackageTags>Blazor;Desktop;BlazorDesktop;WebView2;WebView</PackageTags>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <RepositoryType>git</RepositoryType>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
-
 </Project>
