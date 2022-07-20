@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="6.0.300-rc.2.5513" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="6.0.419+10-sha.db197ebd4-azdo.6404918" />
     <PackageReference Include="WebView2.Runtime.AutoInstaller" Version="1.0.0" />
   </ItemGroup>
 
