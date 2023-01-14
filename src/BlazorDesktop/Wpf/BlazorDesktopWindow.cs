@@ -13,6 +13,7 @@ using BlazorDesktop.Extensions;
 using BlazorDesktop.Hosting;
 using Microsoft.AspNetCore.Components.WebView.Wpf;
 using Microsoft.Web.WebView2.Core;
+using Windows.UI.ViewManagement;
 
 namespace BlazorDesktop.Wpf;
 
@@ -45,6 +46,11 @@ public class BlazorDesktopWindow : Window
     /// The hosting environment.
     /// </summary>
     private readonly IWebHostEnvironment _environment;
+
+    /// <summary>
+    /// The UI settings.
+    /// </summary>
+    private readonly UISettings _uiSettings;
 
     /// <summary>
     /// The drag script.
@@ -84,9 +90,11 @@ window.addEventListener('DOMContentLoaded', () => {
         });
         _config = config;
         _environment = environment;
+        _uiSettings = new UISettings();
 
         InitializeWindow();
         InitializeBlazor();
+        InitializeTheming();
     }
 
     /// <summary>
@@ -101,7 +109,6 @@ window.addEventListener('DOMContentLoaded', () => {
         UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true);
         ResizeMode = (_config.GetValue<bool?>(WindowDefaults.Resizable) ?? true) ? ResizeMode.CanResize : ResizeMode.NoResize;
         UseIcon(_config.GetValue<string?>(WindowDefaults.Icon) ?? string.Empty);
-        Background = new SolidColorBrush(ShouldSystemUseDarkMode() ? Colors.Black : Colors.White);
         Content = WebView;
     }
 
@@ -115,6 +122,52 @@ window.addEventListener('DOMContentLoaded', () => {
         WebView.Services = _services;
         WebView.RootComponents.AddRange(_rootComponents);
         WebView.Loaded += WebViewLoaded;
+    }
+
+    /// <summary>
+    /// Initializes theming.
+    /// </summary>
+    private void InitializeTheming()
+    {
+        SourceInitialized += WindowSourceInitialized;
+        _uiSettings.ColorValuesChanged += ThemeChanged;
+    }
+
+    /// <summary>
+    /// Occurs when the window source has initialized.
+    /// </summary>
+    /// <param name="sender">The sending object.</param>
+    /// <param name="e">The arguments.</param>
+    private void WindowSourceInitialized(object? sender, EventArgs e)
+    {
+        UpdateTheme();
+    }
+
+    /// <summary>
+    /// Occurs when the theme changes.
+    /// </summary>
+    /// <param name="sender">The sending object.</param>
+    /// <param name="args">The arguments.</param>
+    private void ThemeChanged(UISettings sender, object args)
+    {
+        Dispatcher.Invoke(new(() => { UpdateTheme(); }));
+    }
+
+    /// <summary>
+    /// Update the current theme to match the system.
+    /// </summary>
+    private void UpdateTheme()
+    {
+        if (ShouldSystemUseDarkMode())
+        {
+            _ = DwmSetWindowAttribute(new WindowInteropHelper(this).Handle, 20, new int[] { 1 }, Marshal.SizeOf(typeof(int)));
+            Background = new SolidColorBrush(Color.FromRgb(25, 25, 25));
+        }
+        else
+        {
+            _ = DwmSetWindowAttribute(new WindowInteropHelper(this).Handle, 20, new int[] { 0 }, Marshal.SizeOf(typeof(int)));
+            Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+        }
     }
 
     /// <summary>
@@ -136,10 +189,11 @@ window.addEventListener('DOMContentLoaded', () => {
     private void UseIcon(string icon)
     {
         var defaultIconPath = Path.Combine(_environment.WebRootPath, "favicon.ico");
+        var userIconPath = Path.Combine(_environment.WebRootPath, icon);
 
-        if (File.Exists(icon))
+        if (File.Exists(userIconPath))
         {
-            Icon = BitmapFrame.Create(new Uri(icon, UriKind.RelativeOrAbsolute));
+            Icon = BitmapFrame.Create(new Uri(userIconPath, UriKind.RelativeOrAbsolute));
         }
         else
         {
@@ -184,6 +238,7 @@ window.addEventListener('DOMContentLoaded', () => {
     private void BlazorWebViewNavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs e)
     {
         WindowState = WindowState.Normal;
+        WindowStyle = WindowStyle.SingleBorderWindow;
         WebView.WebView.CoreWebView2.NavigationCompleted -= BlazorWebViewNavigationCompleted;
     }
 
@@ -193,4 +248,15 @@ window.addEventListener('DOMContentLoaded', () => {
     /// <returns>True if they should, otherwise false.</returns>
     [DllImport("UXTheme.dll", SetLastError = true, EntryPoint = "#138")]
     private static extern bool ShouldSystemUseDarkMode();
+
+    /// <summary>
+    /// Sets the value of Desktop Window Manager (DWM) non-client rendering attributes for a window.
+    /// </summary>
+    /// <param name="hwnd">The handle to the window for which the attribute value is to be set.</param>
+    /// <param name="dwAttribute">A flag describing which value to set, specified as a value of the DWMWINDOWATTRIBUTE enumeration.</param>
+    /// <param name="pvAttribute">A pointer to an object containing the attribute value to set.</param>
+    /// <param name="cbAttribute">The size, in bytes, of the attribute value being set via the pvAttribute parameter.</param>
+    /// <returns>If the function succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.</returns>
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int dwAttribute, int[] pvAttribute, int cbAttribute);
 }

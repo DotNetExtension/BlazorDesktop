@@ -10,7 +10,7 @@ Blazor Desktop allows you to create desktop apps using Blazor. Apps run inside o
 The easiest way to get started with Blazor Desktop is to install the templates, you can do so using the dotnet cli as follows:
 
 ```powershell
-dotnet new --install BlazorDesktop.Templates::1.1.0
+dotnet new --install BlazorDesktop.Templates::2.0.0
 ```
 
 Once you have the templates installed, you can either create a new project from the template either in Visual Studio in the template picker:
@@ -25,9 +25,9 @@ dotnet new blazordesktop -n MyBlazorApp
 The Blazor Desktop template is set up very similar to the Blazor WASM template, you can see the `Program.cs` file here:
 
 ```csharp
-using BlazorDesktop.Hosting;
 using HelloWorld;
 using HelloWorld.Data;
+using BlazorDesktop.Hosting;
 using Microsoft.AspNetCore.Components.Web;
 
 var builder = BlazorDesktopHostBuilder.CreateDefault(args);
@@ -90,8 +90,7 @@ It is also possible to configure these values through `appsettings.json` like so
   },
   "Logging": {
     "LogLevel": {
-      "Default": "Information",
-      "Microsoft.Hosting.Lifetime": "Information"
+      "Default": "Information"
     }
   }
 }
@@ -139,6 +138,7 @@ In terms of handling things such as the close button, you can inject the Window 
 Here is an example changing `MainLayout.razor`:
 ```razor
 @using System.Windows
+
 @inherits LayoutComponentBase
 @inject Window window
 

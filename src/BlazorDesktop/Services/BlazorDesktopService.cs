@@ -105,6 +105,7 @@ public class BlazorDesktopService : IHostedService, IDisposable
     {
         var app = _services.GetRequiredService<Application>();
 
+        app.MainWindow.WindowStyle = WindowStyle.None;
         app.MainWindow.WindowState = WindowState.Minimized;
         app.MainWindow.Show();
     }

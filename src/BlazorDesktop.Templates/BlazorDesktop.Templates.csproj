@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.1.0</PackageVersion>
+    <PackageVersion>2.0.0</PackageVersion>
     <PackageId>BlazorDesktop.Templates</PackageId>
     <Title>Blazor Desktop Templates</Title>
     <Authors>Andrew Babbitt</Authors>
     <Company>Andrew Babbitt</Company>
     <Product>Blazor Desktop</Product>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RepositoryUrl>https://github.com/AndrewBabbitt97/BlazorDesktop</RepositoryUrl>
     <PackageReleaseNotes>https://github.com/AndrewBabbitt97/BlazorDesktop/releases</PackageReleaseNotes>
@@ -16,6 +17,7 @@
     <PackageProjectUrl>https://github.com/AndrewBabbitt97/BlazorDesktop</PackageProjectUrl>
     <PackageTags>Blazor;Desktop;BlazorDesktop;WebView2;WebView</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
@@ -36,6 +38,10 @@
     <None Include="..\..\assets\nuget.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>true</Pack>
+      <PackagePath></PackagePath>
     </None>
     <None Include="..\..\LICENSE.txt">
       <Pack>true</Pack>

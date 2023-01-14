@@ -9,7 +9,7 @@
   "description": "A project template for creating a Blazor desktop app that runs client-side inside an WPF app. This template can be used for desktop apps with rich dynamic user interfaces (UIs).",
   "groupIdentity": "BlazorDesktop.Hosting",
   "precedence": "8000",
-  "identity": "BlazorDesktop.Hosting.6.0",
+  "identity": "BlazorDesktop.Hosting.7.0",
   "shortName": "blazordesktop",
   "tags": {
     "language": "C#",

@@ -2,9 +2,9 @@
 // The Blazor Desktop Contributors licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using BlazorDesktop.Data;
 using BlazorDesktop.Hosting;
 using BlazorDesktop.Sample;
+using BlazorDesktop.Sample.Data;
 using Microsoft.AspNetCore.Components.Web;
 
 var builder = BlazorDesktopHostBuilder.CreateDefault(args);

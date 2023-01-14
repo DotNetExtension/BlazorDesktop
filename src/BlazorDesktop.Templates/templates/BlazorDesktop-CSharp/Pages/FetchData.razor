@@ -1,14 +1,11 @@
-﻿@page "/fetchdata"
+﻿@using BlazorDesktop_CSharp.Data
 
-@using BlazorDesktop_CSharp.Data
-
+@page "/fetchdata"
 @inject WeatherForecastService ForecastService
-
-<PageTitle>Weather forecast</PageTitle>
 
 <h1>Weather forecast</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>This component demonstrates fetching data from a service.</p>
 
 @if (forecasts == null)
 {
@@ -40,7 +37,7 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private WeatherForecast[] forecasts;
 
     protected override async Task OnInitializedAsync()
     {

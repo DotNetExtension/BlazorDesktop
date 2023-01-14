@@ -2,17 +2,14 @@
 @* The Blazor Desktop Contributors licenses this file to you under the MIT license. *@
 @* See the LICENSE file in the project root for more information. *@
 
+@using BlazorDesktop.Sample.Data
+
 @page "/fetchdata"
-
-@using BlazorDesktop.Data
-
 @inject WeatherForecastService ForecastService
-
-<PageTitle>Weather forecast</PageTitle>
 
 <h1>Weather forecast</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>This component demonstrates fetching data from a service.</p>
 
 @if (forecasts == null)
 {

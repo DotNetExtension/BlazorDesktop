@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.22000.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
   </PropertyGroup>
@@ -14,6 +14,7 @@
     <Authors>Andrew Babbitt</Authors>
     <Company>Andrew Babbitt</Company>
     <Product>Blazor Desktop</Product>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RepositoryUrl>https://github.com/AndrewBabbitt97/BlazorDesktop</RepositoryUrl>
     <PackageReleaseNotes>https://github.com/AndrewBabbitt97/BlazorDesktop/releases</PackageReleaseNotes>
@@ -25,9 +26,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>nuget.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
-    <Version>1.1.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <Version>2.0.0</Version>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
@@ -37,6 +38,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="..\..\README.md">
+      <Pack>true</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\..\LICENSE.txt">
       <Pack>true</Pack>
       <PackagePath></PackagePath>
@@ -44,7 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="6.0.424+15-sha.28ecaba81-azdo.6460681" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="7.0.52" />
     <PackageReference Include="WebView2.Runtime.AutoInstaller" Version="1.0.0" />
   </ItemGroup>
 
