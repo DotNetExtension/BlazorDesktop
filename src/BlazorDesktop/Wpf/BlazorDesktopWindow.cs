@@ -150,7 +150,7 @@ window.addEventListener('DOMContentLoaded', () => {
     /// <param name="args">The arguments.</param>
     private void ThemeChanged(UISettings sender, object args)
     {
-        Dispatcher.Invoke(new(() => { UpdateTheme(); }));
+        Dispatcher.Invoke(new(UpdateTheme));
     }
 
     /// <summary>
