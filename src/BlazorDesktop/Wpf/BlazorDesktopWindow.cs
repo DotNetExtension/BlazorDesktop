@@ -5,6 +5,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -25,6 +26,11 @@ public class BlazorDesktopWindow : Window
     /// The <see cref="BlazorWebView"/>.
     /// </summary>
     public BlazorWebView WebView { get; }
+
+    /// <summary>
+    /// The <see cref="Border"/> for the <see cref="BlazorWebView"/>.
+    /// </summary>
+    public Border WebViewBorder { get; }
 
     /// <summary>
     /// The service provider.
@@ -74,13 +80,15 @@ window.addEventListener('DOMContentLoaded', () => {
     public BlazorDesktopWindow(IServiceProvider services, IConfiguration config, IWebHostEnvironment environment)
     {
         WebView = new BlazorWebView();
+        WebViewBorder = new Border();
         _services = services;
         _config = config;
         _environment = environment;
         _uiSettings = new UISettings();
 
         InitializeWindow();
-        InitializeBlazor();
+        InitializeWebViewBorder();
+        InitializeWebView();
         InitializeTheming();
     }
 
@@ -96,13 +104,24 @@ window.addEventListener('DOMContentLoaded', () => {
         UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true);
         ResizeMode = (_config.GetValue<bool?>(WindowDefaults.Resizable) ?? true) ? ResizeMode.CanResize : ResizeMode.NoResize;
         UseIcon(_config.GetValue<string?>(WindowDefaults.Icon) ?? string.Empty);
-        Content = WebView;
+        Content = WebViewBorder;
+        StateChanged += WindowStateChanged;
     }
 
     /// <summary>
-    /// Initializes blazor.
+    /// Initializes the web view border.
     /// </summary>
-    private void InitializeBlazor()
+    private void InitializeWebViewBorder()
+    {
+        WebViewBorder.Name = "BlazorDesktopWebViewBorder";
+        WebViewBorder.BorderThickness = new Thickness(0, 0, 0, 0);
+        WebViewBorder.Child = WebView;
+    }
+
+    /// <summary>
+    /// Initializes the web view.
+    /// </summary>
+    private void InitializeWebView()
     {
         WebView.Name = "BlazorDesktopWebView";
         WebView.HostPage = Path.Combine(_environment.WebRootPath, "index.html");
@@ -128,6 +147,25 @@ window.addEventListener('DOMContentLoaded', () => {
     {
         SourceInitialized += WindowSourceInitialized;
         _uiSettings.ColorValuesChanged += ThemeChanged;
+    }
+
+    /// <summary>
+    /// Occurs when the window state changes.
+    /// </summary>
+    /// <param name="sender">The sending object.</param>
+    /// <param name="e">The arguments.</param>
+    private void WindowStateChanged(object? sender, EventArgs e)
+    {
+        var useFrame = _config.GetValue<bool?>(WindowDefaults.Frame) ?? true;
+
+        if (WindowState == WindowState.Maximized && !useFrame)
+        {
+            WebViewBorder.BorderThickness = new Thickness(8, 8, 8, 0);
+        }
+        else
+        {
+            WebViewBorder.BorderThickness = new Thickness(0, 0, 0, 0);
+        }
     }
 
     /// <summary>
