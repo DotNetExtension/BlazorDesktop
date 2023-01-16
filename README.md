@@ -4,7 +4,7 @@
 
 # Blazor Desktop
 Blazor Desktop allows you to create desktop apps using Blazor. Apps run inside of a .NET generic host with a WPF window thats fully managed using a similar template to Blazor WASM.
-![app](https://user-images.githubusercontent.com/2308261/153133429-7e1cdebd-72d0-4d61-91d9-eb14089cf9fc.png)
+![app](https://user-images.githubusercontent.com/2308261/212734109-a405ebe1-bd39-495b-b663-b8522b88f36c.png)
 
 # Getting Started
 The easiest way to get started with Blazor Desktop is to install the templates, you can do so using the dotnet cli as follows:
@@ -25,12 +25,15 @@ dotnet new blazordesktop -n MyBlazorApp
 The Blazor Desktop template is set up very similar to the Blazor WASM template, you can see the `Program.cs` file here:
 
 ```csharp
+using BlazorDesktop.Hosting;
 using HelloWorld;
 using HelloWorld.Data;
-using BlazorDesktop.Hosting;
 using Microsoft.AspNetCore.Components.Web;
 
 var builder = BlazorDesktopHostBuilder.CreateDefault(args);
+
+builder.UseWebViewInstaller();
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
@@ -58,7 +61,8 @@ builder.Window.UseTitle("Hello");
 
 Window size:
 ```csharp
-builder.Window.UseWidth(1920)
+builder.Window
+    .UseWidth(1920)
     .UseHeight(1080);
 ```
 
@@ -72,7 +76,7 @@ Disable the window frame (allows you to use your own window chrome inside of Bla
 builder.Window.UseFrame(false);
 ```
 
-And change your window icon (uses `wwwroot/favicon.ico` as the default):
+And change your window icon (uses `favicon.ico` as the default, base directory is `wwwroot`):
 ```csharp
 builder.Window.UseIcon("myicon.ico");
 ```
