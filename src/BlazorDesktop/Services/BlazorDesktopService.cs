@@ -4,7 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
-using BlazorDesktop.Hosting;
+using BlazorDesktop.Wpf;
 using WebView2.Runtime.AutoInstaller;
 
 namespace BlazorDesktop.Services;
@@ -25,27 +25,27 @@ public class BlazorDesktopService : IHostedService, IDisposable
     private readonly IHostApplicationLifetime _lifetime;
 
     /// <summary>
+    /// The web view installer.
+    /// </summary>
+    private readonly WebViewInstaller _webViewInstaller;
+
+    /// <summary>
     /// The services.
     /// </summary>
     private readonly IServiceProvider _services;
-
-    /// <summary>
-    /// The configuration.
-    /// </summary>
-    private readonly IConfiguration _config;
 
     /// <summary>
     /// Creates a <see cref="BlazorDesktopService"/> instance.
     /// </summary>
     /// <param name="lifetime">The <see cref="IHostApplicationLifetime"/>.</param>
     /// <param name="services">The <see cref="IServiceProvider"/>.</param>
-    /// <param name="config">The <see cref="IConfiguration"/>.</param>
-    public BlazorDesktopService(IHostApplicationLifetime lifetime, IServiceProvider services, IConfiguration config)
+    /// <param name="webViewInstaller">The <see cref="WebViewInstaller"/>.</param>
+    public BlazorDesktopService(IHostApplicationLifetime lifetime, IServiceProvider services, WebViewInstaller webViewInstaller)
     {
         _applicationStoppingRegistration = new();
         _lifetime = lifetime;
         _services = services;
-        _config = config;
+        _webViewInstaller = webViewInstaller;
     }
 
     /// <summary>
@@ -60,9 +60,9 @@ public class BlazorDesktopService : IHostedService, IDisposable
             OnApplicationStopping();
         });
 
-        if (_config.GetValue<bool?>(WindowDefaults.WebView2Installer) ?? true)
+        if (_webViewInstaller.Enabled)
         {
-            await WebView2AutoInstaller.CheckAndInstallAsync(silentInstall: false, cancellationToken: cancellationToken);
+            await WebView2AutoInstaller.CheckAndInstallAsync(silentInstall: _webViewInstaller.SilentInstall, cancellationToken: cancellationToken);
         }
 
         var thread = new Thread(ApplicationThread);

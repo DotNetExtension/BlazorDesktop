@@ -8,6 +8,9 @@ using BlazorDesktop.Sample.Data;
 using Microsoft.AspNetCore.Components.Web;
 
 var builder = BlazorDesktopHostBuilder.CreateDefault(args);
+
+builder.UseWebViewInstaller();
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 

@@ -38,9 +38,4 @@ public static class WindowDefaults
     /// The configuration key associated with the icon.
     /// </summary>
     public static readonly string Icon = "window:icon";
-
-    /// <summary>
-    /// The configuration key associated with the WebView2 installer.
-    /// </summary>
-    public static readonly string WebView2Installer = "window:webView2Installer";
 }

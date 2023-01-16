@@ -10,17 +10,17 @@ namespace BlazorDesktop.Hosting;
 public class ConfigureWindowBuilder
 {
     /// <summary>
-    /// The config.
+    /// The configuration.
     /// </summary>
-    private readonly IConfiguration _config;
+    private readonly IConfiguration _configuration;
 
     /// <summary>
     /// Creates a instance of <see cref="ConfigureWindowBuilder"/>.
     /// </summary>
-    /// <param name="config">The config.</param>
-    internal ConfigureWindowBuilder(ConfigurationManager config)
+    /// <param name="configuration">The configuration.</param>
+    internal ConfigureWindowBuilder(IConfiguration configuration)
     {
-        _config = config;
+        _configuration = configuration;
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ public class ConfigureWindowBuilder
     /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
     public ConfigureWindowBuilder UseTitle(string title)
     {
-        _config[WindowDefaults.Title] = title;
+        _configuration[WindowDefaults.Title] = title;
         return this;
     }
 
@@ -41,7 +41,7 @@ public class ConfigureWindowBuilder
     /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
     public ConfigureWindowBuilder UseHeight(int height)
     {
-        _config[WindowDefaults.Height] = height.ToString();
+        _configuration[WindowDefaults.Height] = height.ToString();
         return this;
     }
 
@@ -52,7 +52,7 @@ public class ConfigureWindowBuilder
     /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
     public ConfigureWindowBuilder UseWidth(int width)
     {
-        _config[WindowDefaults.Width] = width.ToString();
+        _configuration[WindowDefaults.Width] = width.ToString();
         return this;
     }
 
@@ -63,7 +63,7 @@ public class ConfigureWindowBuilder
     /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
     public ConfigureWindowBuilder UseFrame(bool frame)
     {
-        _config[WindowDefaults.Frame] = frame.ToString();
+        _configuration[WindowDefaults.Frame] = frame.ToString();
         return this;
     }
 
@@ -74,7 +74,7 @@ public class ConfigureWindowBuilder
     /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
     public ConfigureWindowBuilder UseResizable(bool resizable)
     {
-        _config[WindowDefaults.Resizable] = resizable.ToString();
+        _configuration[WindowDefaults.Resizable] = resizable.ToString();
         return this;
     }
 
@@ -85,18 +85,7 @@ public class ConfigureWindowBuilder
     /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
     public ConfigureWindowBuilder UseIcon(string icon)
     {
-        _config[WindowDefaults.Icon] = icon;
-        return this;
-    }
-
-    /// <summary>
-    /// If the WebView2 installer should be used.
-    /// </summary>
-    /// <param name="installer">If the WebView2 installer should be used.</param>
-    /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
-    public ConfigureWindowBuilder UseWebView2Installer(bool installer)
-    {
-        _config[WindowDefaults.WebView2Installer] = installer.ToString();
+        _configuration[WindowDefaults.Icon] = icon;
         return this;
     }
 }

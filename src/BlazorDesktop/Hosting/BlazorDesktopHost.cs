@@ -11,11 +11,6 @@ namespace BlazorDesktop.Hosting;
 public sealed class BlazorDesktopHost : IHost, IAsyncDisposable
 {
     /// <summary>
-    /// The host.
-    /// </summary>
-    private readonly IHost _host;
-
-    /// <summary>
     /// Gets the application configuration.
     /// </summary>
     public IConfiguration Configuration => _host.Services.GetRequiredService<IConfiguration>();
@@ -24,6 +19,11 @@ public sealed class BlazorDesktopHost : IHost, IAsyncDisposable
     /// Gets the service provider associated with the application.
     /// </summary>
     public IServiceProvider Services => _host.Services;
+
+    /// <summary>
+    /// The host.
+    /// </summary>
+    private readonly IHost _host;
 
     /// <summary>
     /// Creates an instance of <see cref="BlazorDesktopHost"/> with a specified <see cref="IHost"/>.

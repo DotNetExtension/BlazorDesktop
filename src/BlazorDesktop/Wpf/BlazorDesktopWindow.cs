@@ -89,8 +89,8 @@ window.addEventListener('DOMContentLoaded', () => {
     /// </summary>
     private void InitializeWindow()
     {
-        Name = "BlazorDesktopForm";
-        Title = _config.GetValue<string?>(WindowDefaults.Title) ?? "Blazor Desktop";
+        Name = "BlazorDesktopWindow";
+        Title = _config.GetValue<string?>(WindowDefaults.Title) ?? _environment.ApplicationName;
         Height = _config.GetValue<int?>(WindowDefaults.Height) ?? 768;
         Width = _config.GetValue<int?>(WindowDefaults.Width) ?? 1366;
         UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true);
@@ -104,7 +104,7 @@ window.addEventListener('DOMContentLoaded', () => {
     /// </summary>
     private void InitializeBlazor()
     {
-        WebView.Name = "BlazorWebView";
+        WebView.Name = "BlazorDesktopWebView";
         WebView.HostPage = Path.Combine(_environment.WebRootPath, "index.html");
         WebView.Services = _services;
 

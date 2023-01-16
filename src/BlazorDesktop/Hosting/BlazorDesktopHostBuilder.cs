@@ -14,15 +14,10 @@ namespace BlazorDesktop.Hosting;
 public sealed class BlazorDesktopHostBuilder
 {
     /// <summary>
-    /// The host builder.
-    /// </summary>
-    private readonly IHostBuilder _hostBuilder;
-
-    /// <summary>
     /// Gets an <see cref="ConfigurationManager"/> that can be used to customize the application's
     /// configuration sources and read configuration attributes.
     /// </summary>
-    public ConfigurationManager Configuration { get; }
+    public ConfigurationManager Configuration => _hostApplicationBuilder.Configuration;
 
     /// <summary>
     /// Gets the collection of root component mappings configured for the application.
@@ -32,7 +27,7 @@ public sealed class BlazorDesktopHostBuilder
     /// <summary>
     /// Gets the service collection.
     /// </summary>
-    public IServiceCollection Services { get; }
+    public IServiceCollection Services => _hostApplicationBuilder.Services;
 
     /// <summary>
     /// Gets information about the app's host environment.
@@ -42,7 +37,7 @@ public sealed class BlazorDesktopHostBuilder
     /// <summary>
     /// Gets the logging builder for configuring logging services.
     /// </summary>
-    public ILoggingBuilder Logging { get; }
+    public ILoggingBuilder Logging => _hostApplicationBuilder.Logging;
 
     /// <summary>
     /// Exposes configuration options for the window.
@@ -50,19 +45,23 @@ public sealed class BlazorDesktopHostBuilder
     public ConfigureWindowBuilder Window { get; }
 
     /// <summary>
+    /// The host application builder.
+    /// </summary>
+    private readonly HostApplicationBuilder _hostApplicationBuilder;
+
+    /// <summary>
     /// Creates an instance of <see cref="BlazorDesktopHostBuilder"/> with the minimal configuration.
     /// </summary>
     /// <param name="args">The arguments passed to the application's main method.</param>
-    internal BlazorDesktopHostBuilder(string[]? args)
+    private BlazorDesktopHostBuilder(string[]? args)
     {
-        _hostBuilder = Host.CreateDefaultBuilder(args);
+        _hostApplicationBuilder = InitializeHostApplicationBuilder(args);
 
-        Configuration = new();
-        RootComponents = new();
-        Services = new ServiceCollection();
-        Logging = new LoggingBuilder(Services);
-        Window = new(Configuration);
-        HostEnvironment = InitializeEnvironment(args);
+        InitializeDefaultServices();
+
+        RootComponents = InitializeRootComponents();
+        HostEnvironment = InitializeEnvironment();
+        Window = InitializeWindowBuilder();
     }
 
     /// <summary>
@@ -77,60 +76,106 @@ public sealed class BlazorDesktopHostBuilder
     }
 
     /// <summary>
+    /// Registers a <see cref="IServiceProviderFactory{TBuilder}" /> instance to be used to create the <see cref="IServiceProvider" />.
+    /// </summary>
+    /// <typeparam name="TBuilder">The type of builder provided by the <see cref="IServiceProviderFactory{TBuilder}" />.</typeparam>
+    /// <param name="factory">The <see cref="IServiceProviderFactory{TBuilder}" />.</param>
+    /// <param name="configure">
+    /// A delegate used to configure the <typeparamref T="TBuilder" />. This can be used to configure services using
+    /// APIs specific to the <see cref="IServiceProviderFactory{TBuilder}" /> implementation.
+    /// </param>
+    /// <exception cref="ArgumentNullException">Occurs when the <paramref name="factory"/> parameter is null.</exception>
+    /// <remarks>
+    /// <para>
+    /// <see cref="ConfigureContainer{TBuilder}(IServiceProviderFactory{TBuilder}, Action{TBuilder})"/> is called by <see cref="Build"/>
+    /// and so the delegate provided by <paramref name="configure"/> will run after all other services have been registered.
+    /// </para>
+    /// <para>
+    /// Multiple calls to <see cref="ConfigureContainer{TBuilder}(IServiceProviderFactory{TBuilder}, Action{TBuilder})"/> will replace
+    /// the previously stored <paramref name="factory"/> and <paramref name="configure"/> delegate.
+    /// </para>
+    /// </remarks>
+    public void ConfigureContainer<TBuilder>(IServiceProviderFactory<TBuilder> factory, Action<TBuilder>? configure = null) where TBuilder : notnull
+    {
+        if (factory == null)
+        {
+            throw new ArgumentNullException(nameof(factory));
+        }
+
+        _hostApplicationBuilder.ConfigureContainer(factory, configure);
+    }
+
+    /// <summary>
     /// Builds a <see cref="BlazorDesktopHost"/> instance based on the configuration of this builder.
     /// </summary>
     /// <returns>A <see cref="BlazorDesktopHost"/> object.</returns>
     public BlazorDesktopHost Build()
     {
-        ((BlazorDesktopHostingEnvironment)HostEnvironment).SaveConfig(Configuration);
-
-        var builder = _hostBuilder.ConfigureAppConfiguration(builder =>
-        {
-            builder.AddConfiguration(Configuration);
-        })
-        .ConfigureServices(services =>
-        {
-            services.AddWpfBlazorWebView();
-
-            services.AddSingleton(HostEnvironment);
-            services.AddSingleton(RootComponents);
-            services.AddSingleton<Window, BlazorDesktopWindow>();
-            services.AddSingleton<Application>();
-
-            services.AddHostedService<BlazorDesktopService>();
-
-            foreach (var service in Services)
-            {
-                services.Add(service);
-            }
-        });
-
-        return new(builder.Build());
+        return new(_hostApplicationBuilder.Build());
     }
 
     /// <summary>
-    /// Adds Chromium dev tools to the Blazor Desktop application.
+    /// Initializes the host application builder.
     /// </summary>
-    /// <returns>The <see cref="BlazorDesktopHostBuilder"/>.</returns>
-    public BlazorDesktopHostBuilder UseDeveloperTools()
+    /// <param name="args">The arguments passed to the application's main method.</param>
+    /// <returns>A <see cref="HostApplicationBuilder"/>.</returns>
+    private static HostApplicationBuilder InitializeHostApplicationBuilder(string[]? args)
     {
-        Services.AddBlazorWebViewDeveloperTools();
-        return this;
+        var configuration = new ConfigurationManager();
+
+        configuration.AddEnvironmentVariables("ASPNETCORE_");
+
+        return new(new HostApplicationBuilderSettings
+        {
+            Args = args,
+            Configuration = configuration
+        });
+    }
+
+    /// <summary>
+    /// Initializes the default services.
+    /// </summary>
+    private void InitializeDefaultServices()
+    {
+        Services.AddWpfBlazorWebView();
+        Services.AddSingleton<WebViewInstaller>();
+        Services.AddSingleton<Application>();
+        Services.AddSingleton<Window, BlazorDesktopWindow>();
+        Services.AddHostedService<BlazorDesktopService>();
+    }
+
+    /// <summary>
+    /// Initializes the root components.
+    /// </summary>
+    /// <returns>A <see cref="RootComponentMappingCollection"/>.</returns>
+    private RootComponentMappingCollection InitializeRootComponents()
+    {
+        var rootComponents = new RootComponentMappingCollection();
+
+        Services.AddSingleton(rootComponents);
+
+        return rootComponents;
     }
 
     /// <summary>
     /// Initializes the environment.
     /// </summary>
-    /// <param name="args">The arguments passed to the application's main method.</param>
-    /// <returns>A <see cref="BlazorDesktopHostingEnvironment"/>.</returns>
-    private static BlazorDesktopHostingEnvironment InitializeEnvironment(string[]? args)
+    /// <returns>A <see cref="BlazorDesktopHostEnvironment"/>.</returns>
+    private BlazorDesktopHostEnvironment InitializeEnvironment()
     {
-        var environmentHost = Host.CreateDefaultBuilder(args).Build();
-        var environment = new BlazorDesktopHostingEnvironment();
-        var config = environmentHost.Services.GetRequiredService<IConfiguration>();
+        var hostEnvironment = new BlazorDesktopHostEnvironment(_hostApplicationBuilder.Environment, Configuration);
 
-        environment.LoadConfig(config);
+        Services.AddSingleton<IWebHostEnvironment>(hostEnvironment);
 
-        return environment;
+        return hostEnvironment;
+    }
+
+    /// <summary>
+    /// Initializes the window builder.
+    /// </summary>
+    /// <returns>A <see cref="ConfigureWindowBuilder"/>.</returns>
+    private ConfigureWindowBuilder InitializeWindowBuilder()
+    {
+        return new ConfigureWindowBuilder(Configuration);
     }
 }
