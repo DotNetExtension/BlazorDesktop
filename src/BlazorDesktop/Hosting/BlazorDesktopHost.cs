@@ -65,7 +65,7 @@ public sealed class BlazorDesktopHost : IHost, IAsyncDisposable
     /// <summary>
     /// Disposes the host asynchronously.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A <see cref="ValueTask"/> which respresents the completion of disposal.</returns>
     public ValueTask DisposeAsync()
     {
         return ((IAsyncDisposable)_host).DisposeAsync();
