@@ -2,7 +2,6 @@
 // The Blazor Desktop Contributors licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorDesktop.Hosting;
@@ -15,7 +14,6 @@ public readonly struct RootComponentMapping
     /// <summary>
     /// Gets the component type.
     /// </summary>
-    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
     public Type ComponentType { get; }
 
     /// <summary>
@@ -36,7 +34,7 @@ public readonly struct RootComponentMapping
     /// <param name="selector">The DOM element selector or component registration id for the component.</param>
     /// <exception cref="ArgumentNullException">Occurs when the <paramref name="componentType"/> or <paramref name="selector"/> parameters are null.</exception>
     /// <exception cref="ArgumentException">Occurs when <paramref name="componentType"/> does not inherit from <see cref="IComponent"/>.</exception>
-    public RootComponentMapping([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type componentType, string selector)
+    public RootComponentMapping(Type componentType, string selector)
     {
         if (componentType is null)
         {
@@ -65,7 +63,7 @@ public readonly struct RootComponentMapping
     /// <param name="componentType">The component type. Must implement <see cref="IComponent"/>.</param>
     /// <param name="selector">The DOM element selector or component registration id for the component.</param>
     /// <param name="parameters">The parameters to pass to the component,</param>
-    public RootComponentMapping([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type componentType, string selector, ParameterView parameters) : this(componentType, selector)
+    public RootComponentMapping(Type componentType, string selector, ParameterView parameters) : this(componentType, selector)
     {
         Parameters = parameters;
     }

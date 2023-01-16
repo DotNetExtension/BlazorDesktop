@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorDesktop.Hosting;
@@ -19,7 +18,7 @@ public class RootComponentMappingCollection : Collection<RootComponentMapping>
     /// <typeparam name="TComponent">The component type.</typeparam>
     /// <param name="selector">The DOM element selector.</param>
     /// <exception cref="ArgumentNullException">Occurs when <paramref name="selector"/> is null.</exception>
-    public void Add<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent>(string selector) where TComponent : IComponent
+    public void Add<TComponent>(string selector) where TComponent : IComponent
     {
         if (selector is null)
         {
@@ -34,7 +33,7 @@ public class RootComponentMappingCollection : Collection<RootComponentMapping>
     /// </summary>
     /// <param name="componentType">The component type. Must implement <see cref="IComponent"/>.</param>
     /// <param name="selector">The DOM element selector.</param>
-    public void Add([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type componentType, string selector)
+    public void Add(Type componentType, string selector)
     {
         Add(componentType, selector, ParameterView.Empty);
     }
@@ -46,7 +45,7 @@ public class RootComponentMappingCollection : Collection<RootComponentMapping>
     /// <param name="selector">The DOM element selector.</param>
     /// <param name="parameters">The parameters to the root component.</param>
     /// <exception cref="ArgumentNullException">Occurs when <paramref name="componentType"/> or <paramref name="selector"/> is null.</exception>
-    public void Add([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type componentType, string selector, ParameterView parameters)
+    public void Add(Type componentType, string selector, ParameterView parameters)
     {
         if (componentType is null)
         {
