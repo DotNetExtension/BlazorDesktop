@@ -9,7 +9,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shell;
-using BlazorDesktop.Extensions;
 using BlazorDesktop.Hosting;
 using Microsoft.AspNetCore.Components.WebView.Wpf;
 using Microsoft.Web.WebView2.Core;
@@ -31,11 +30,6 @@ public class BlazorDesktopWindow : Window
     /// The service provider.
     /// </summary>
     private readonly IServiceProvider _services;
-
-    /// <summary>
-    /// The root components.
-    /// </summary>
-    private readonly IEnumerable<RootComponent> _rootComponents;
 
     /// <summary>
     /// The configuration.
@@ -75,19 +69,12 @@ window.addEventListener('DOMContentLoaded', () => {
     /// Creates a <see cref="BlazorDesktopWindow"/> instance.
     /// </summary>
     /// <param name="services">The services.</param>
-    /// <param name="rootComponents">The root components.</param>
     /// <param name="config">The configuration.</param>
     /// <param name="environment">The hosting environment.</param>
-    public BlazorDesktopWindow(IServiceProvider services, RootComponentMappingCollection rootComponents, IConfiguration config, IWebHostEnvironment environment)
+    public BlazorDesktopWindow(IServiceProvider services, IConfiguration config, IWebHostEnvironment environment)
     {
         WebView = new BlazorWebView();
         _services = services;
-        _rootComponents = rootComponents.Select(c => new RootComponent()
-        {
-            Selector = c.Selector,
-            ComponentType = c.ComponentType,
-            Parameters = (IDictionary<string, object?>)c.Parameters.ToDictionary()
-        });
         _config = config;
         _environment = environment;
         _uiSettings = new UISettings();
@@ -120,7 +107,17 @@ window.addEventListener('DOMContentLoaded', () => {
         WebView.Name = "BlazorWebView";
         WebView.HostPage = Path.Combine(_environment.WebRootPath, "index.html");
         WebView.Services = _services;
-        WebView.RootComponents.AddRange(_rootComponents);
+
+        foreach (var rootComponent in _services.GetRequiredService<RootComponentMappingCollection>())
+        {
+            WebView.RootComponents.Add(new()
+            {
+                Selector = rootComponent.Selector,
+                ComponentType = rootComponent.ComponentType,
+                Parameters = (IDictionary<string, object?>)rootComponent.Parameters.ToDictionary()
+            });
+        }
+
         WebView.Loaded += WebViewLoaded;
     }
 
