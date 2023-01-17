@@ -63,7 +63,11 @@ Window size:
 ```csharp
 builder.Window
     .UseWidth(1920)
-    .UseHeight(1080);
+    .UseHeight(1080)
+    .UseMinWidth(1280)
+    .UseMinHeight(720);
+    .UseMaxWidth(2560)
+    .UseMaxHeight(1440);
 ```
 
 Disable window resizing:
@@ -86,8 +90,12 @@ It is also possible to configure these values through `appsettings.json` like so
 {
   "Window": {
     "Title": "Hello Blazor",
-    "Height": 900,
-    "Width": 400,
+    "Height": 1080,
+    "Width": 1920,
+    "MinHeight": 720,
+    "MinWidth": 1280,
+    "MaxHeight": 1440,
+    "MaxWidth": 2560,
     "Frame": false,
     "Resizable": false,
     "Icon": "hello.ico"

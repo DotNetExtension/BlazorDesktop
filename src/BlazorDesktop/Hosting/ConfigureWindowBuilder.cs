@@ -57,6 +57,50 @@ public class ConfigureWindowBuilder
     }
 
     /// <summary>
+    /// Uses a specific min height for the window.
+    /// </summary>
+    /// <param name="minHeight">The min height.</param>
+    /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
+    public ConfigureWindowBuilder UseMinHeight(int minHeight)
+    {
+        _configuration[WindowDefaults.MinHeight] = minHeight.ToString();
+        return this;
+    }
+
+    /// <summary>
+    /// Uses a specific min width for the window.
+    /// </summary>
+    /// <param name="minWidth">The min width.</param>
+    /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
+    public ConfigureWindowBuilder UseMinWidth(int minWidth)
+    {
+        _configuration[WindowDefaults.MinWidth] = minWidth.ToString();
+        return this;
+    }
+
+    /// <summary>
+    /// Uses a specific max height for the window.
+    /// </summary>
+    /// <param name="maxHeight">The max height.</param>
+    /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
+    public ConfigureWindowBuilder UseMaxHeight(int maxHeight)
+    {
+        _configuration[WindowDefaults.MaxHeight] = maxHeight.ToString();
+        return this;
+    }
+
+    /// <summary>
+    /// Uses a specific max width for the window.
+    /// </summary>
+    /// <param name="maxWidth">The max width.</param>
+    /// <returns>The <see cref="ConfigureWindowBuilder"/>.</returns>
+    public ConfigureWindowBuilder UseMaxWidth(int maxWidth)
+    {
+        _configuration[WindowDefaults.MaxWidth] = maxWidth.ToString();
+        return this;
+    }
+
+    /// <summary>
     /// If the window should have a frame.
     /// </summary>
     /// <param name="frame">If the default frame should be used.</param>

@@ -101,6 +101,10 @@ window.addEventListener('DOMContentLoaded', () => {
         Title = _config.GetValue<string?>(WindowDefaults.Title) ?? _environment.ApplicationName;
         Height = _config.GetValue<int?>(WindowDefaults.Height) ?? 768;
         Width = _config.GetValue<int?>(WindowDefaults.Width) ?? 1366;
+        MinHeight = _config.GetValue<int?>(WindowDefaults.MinHeight) ?? 0;
+        MinWidth = _config.GetValue<int?>(WindowDefaults.MinWidth) ?? 0;
+        MaxHeight = _config.GetValue<int?>(WindowDefaults.MaxHeight) ?? 0;
+        MaxWidth = _config.GetValue<int?>(WindowDefaults.MaxWidth) ?? 0;
         UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true);
         ResizeMode = (_config.GetValue<bool?>(WindowDefaults.Resizable) ?? true) ? ResizeMode.CanResize : ResizeMode.NoResize;
         UseIcon(_config.GetValue<string?>(WindowDefaults.Icon) ?? string.Empty);

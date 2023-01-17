@@ -25,6 +25,26 @@ public static class WindowDefaults
     public static readonly string Width = "window:width";
 
     /// <summary>
+    /// The configuration key associated with the min height.
+    /// </summary>
+    public static readonly string MinHeight = "window:minHeight";
+
+    /// <summary>
+    /// The configuration key associated with the min width.
+    /// </summary>
+    public static readonly string MinWidth = "window:minWidth";
+
+    /// <summary>
+    /// The configuration key associated with the max height.
+    /// </summary>
+    public static readonly string MaxHeight = "window:maxHeight";
+
+    /// <summary>
+    /// The configuration key associated with the max width.
+    /// </summary>
+    public static readonly string MaxWidth = "window:maxWidth";
+
+    /// <summary>
     /// The configuration key associated with the frame.
     /// </summary>
     public static readonly string Frame = "window:frame";
