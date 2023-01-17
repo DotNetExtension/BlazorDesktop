@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlazorDesktop" Version="3.0.0" />
+    <PackageReference Include="BlazorDesktop" Version="3.1.0" />
   </ItemGroup>
 
 </Project>
