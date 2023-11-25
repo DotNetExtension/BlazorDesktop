@@ -3,7 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Windows;
+using System.Windows.Threading;
 using BlazorDesktop.Wpf;
 using WebView2.Runtime.AutoInstaller;
 
@@ -17,18 +19,24 @@ namespace BlazorDesktop.Services;
 /// </remarks>
 /// <param name="lifetime">The <see cref="IHostApplicationLifetime"/>.</param>
 /// <param name="services">The <see cref="IServiceProvider"/>.</param>
+/// <param name="logger">The <see cref="ILogger{TCategoryName}"/>.</param>
 /// <param name="webViewInstaller">The <see cref="WebViewInstaller"/>.</param>
-public class BlazorDesktopService(IHostApplicationLifetime lifetime, IServiceProvider services, WebViewInstaller webViewInstaller) : IHostedService, IDisposable
+public partial class BlazorDesktopService(IHostApplicationLifetime lifetime, IServiceProvider services, ILogger<BlazorDesktopService> logger, WebViewInstaller webViewInstaller) : IHostedService, IDisposable
 {
-    /// <summary>
-    /// The cancellation token registration.
-    /// </summary>
-    private CancellationTokenRegistration _applicationStoppingRegistration;
-
     /// <summary>
     /// The application lifetime.
     /// </summary>
     private readonly IHostApplicationLifetime _lifetime = lifetime;
+
+    /// <summary>
+    /// The services.
+    /// </summary>
+    private readonly IServiceProvider _services = services;
+
+    /// <summary>
+    /// The <see cref="ILogger{TCategoryName}"/>.
+    /// </summary>
+    private readonly ILogger<BlazorDesktopService> _logger = logger;
 
     /// <summary>
     /// The web view installer.
@@ -36,9 +44,9 @@ public class BlazorDesktopService(IHostApplicationLifetime lifetime, IServicePro
     private readonly WebViewInstaller _webViewInstaller = webViewInstaller;
 
     /// <summary>
-    /// The services.
+    /// The cancellation token registration.
     /// </summary>
-    private readonly IServiceProvider _services = services;
+    private CancellationTokenRegistration _applicationStoppingRegistration;
 
     /// <summary>
     /// Starts the service.
@@ -70,6 +78,15 @@ public class BlazorDesktopService(IHostApplicationLifetime lifetime, IServicePro
     }
 
     /// <summary>
+    /// Logs an unhanded component exception,
+    /// </summary>
+    /// <param name="logger">The <see cref="ILogger"/>.</param>
+    /// <param name="message">The message.</param>
+    /// <param name="exception">The <see cref="Exception"/>.</param>
+    [LoggerMessage(0, LogLevel.Critical, "Unhandled exception rendering component: {Message}", EventName = "ExceptionRenderingComponent")]
+    private static partial void LogUnhandledExceptionRenderingComponent(ILogger logger, string message, Exception exception);
+
+    /// <summary>
     /// The application thread.
     /// </summary>
     private void ApplicationThread()
@@ -79,10 +96,15 @@ public class BlazorDesktopService(IHostApplicationLifetime lifetime, IServicePro
 
         app.Startup += OnApplicationStartup;
         app.Exit += OnApplicationExit;
+        app.DispatcherUnhandledException += OnApplicationException;
 
         app.MainWindow = mainWindow;
 
         app.Run();
+
+        app.DispatcherUnhandledException -= OnApplicationException;
+        app.Exit -= OnApplicationExit;
+        app.Startup -= OnApplicationStartup;
     }
 
     /// <summary>
@@ -107,6 +129,25 @@ public class BlazorDesktopService(IHostApplicationLifetime lifetime, IServicePro
     private void OnApplicationExit(object? sender, ExitEventArgs e)
     {
         _lifetime.StopApplication();
+    }
+
+    /// <summary>
+    /// Occurs when the application throws an exception.
+    /// </summary>
+    /// <param name="sender">The sending object.</param>
+    /// <param name="e">The arguments.</param>
+    private void OnApplicationException(object sender, DispatcherUnhandledExceptionEventArgs e)
+    {
+        if (e.Exception is TargetInvocationException && e.Exception.InnerException is not null)
+        {
+            LogUnhandledExceptionRenderingComponent(_logger, e.Exception.InnerException.Message, e.Exception.InnerException);
+        }
+        else
+        {
+            LogUnhandledExceptionRenderingComponent(_logger, e.Exception.Message, e.Exception);
+        }
+
+        e.Handled = true;
     }
 
     /// <summary>
