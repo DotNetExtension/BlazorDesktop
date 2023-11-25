@@ -14,7 +14,7 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 
 - [Code of Conduct](#code-of-conduct)
 - [I Have a Question](#i-have-a-question)
-- [I Want To Contribute](#i-want-to-contribute)
+  - [I Want To Contribute](#i-want-to-contribute)
   - [Reporting Bugs](#reporting-bugs)
   - [Suggesting Enhancements](#suggesting-enhancements)
   - [Your First Code Contribution](#your-first-code-contribution)
@@ -68,7 +68,7 @@ A good bug report shouldn't leave others needing to chase you up for more inform
 
 #### How Do I Submit a Good Bug Report?
 
-> You must never report security related issues, vulnerabilities or bugs to the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to <andrew.babbitt@outlook.com>.
+> You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to <andrew.babbitt@outlook.com>.
 
 We use GitHub issues to track bugs and errors. If you run into an issue with the project:
 

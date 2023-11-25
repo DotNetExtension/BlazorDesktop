@@ -2,8 +2,8 @@
 
 <!-- Thank you for submitting a pull request to our repo. -->
 
-<!-- Please run through this checklist below to ensure a smooth review and merge process for your PR.
-Replace the space in the square brackets with an x to check them. -->
+<!-- If this is your first PR in this repo, please run through the checklist
+below to ensure a smooth review and merge process for your PR. -->
 
 - [ ] You've read the [Contributor Guide](https://github.com/AndrewBabbitt97/BlazorDesktop/blob/main/CONTRIBUTING.md) and [Code of Conduct](https://github.com/AndrewBabbitt97/BlazorDesktop/blob/main/CODE_OF_CONDUCT.md).
 - [ ] You've included unit or integration tests for your change, where applicable.
@@ -14,10 +14,10 @@ Replace the space in the square brackets with an x to check them. -->
 
 ## Summary of the changes
 
-{Summary} (Less than 80 characters)
+{Summary}
 
 ## Description
 
 {Detail}
 
-Fixes #{issue number}
+Fixes #{bug number}

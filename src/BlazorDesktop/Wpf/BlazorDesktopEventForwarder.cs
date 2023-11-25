@@ -9,7 +9,11 @@ namespace BlazorDesktop.Wpf;
 /// <summary>
 /// The blazor desktop event forwarder.
 /// </summary>
-public class BlazorDesktopEventForwarder
+/// <remarks>
+/// Creates an instance of <see cref="BlazorDesktopEventForwarder"/>.
+/// </remarks>
+/// <param name="target">The target handle.</param>
+public partial class BlazorDesktopEventForwarder(IntPtr target)
 {
     /// <summary>
     /// Posted when the user presses the left mouse button while the cursor is
@@ -25,16 +29,7 @@ public class BlazorDesktopEventForwarder
     /// <summary>
     /// The target
     /// </summary>
-    private readonly IntPtr _target;
-
-    /// <summary>
-    /// Creates an instance of <see cref="BlazorDesktopEventForwarder"/>.
-    /// </summary>
-    /// <param name="target">The target handle.</param>
-    public BlazorDesktopEventForwarder(IntPtr target)
-    {
-        _target = target;
-    }
+    private readonly IntPtr _target = target;
 
     /// <summary>
     /// Occurs when the mouse starts dragging.
@@ -53,13 +48,14 @@ public class BlazorDesktopEventForwarder
     /// <param name="wParam">Additional message-specific information.</param>
     /// <param name="lParam">Additional message-specific information.</param>
     /// <returns>The return value specifies the result of the message processing; it depends on the message sent.</returns>
-    [DllImport("User32", ExactSpelling = true, EntryPoint = "SendMessageW", SetLastError = true)]
-    internal static extern nint SendMessage(IntPtr hWnd, uint msg, uint wParam, nint lParam);
+    [LibraryImport("User32", EntryPoint = "SendMessageW", SetLastError = true)]
+    internal static partial nint SendMessage(IntPtr hWnd, uint msg, uint wParam, nint lParam);
 
     /// <summary>
     /// Releases the mouse capture from a window in the current thread and restores normal mouse input processing.
     /// </summary>
     /// <returns>If the function succeeds, the return value is true. If the function fails, the return value is false.</returns>
-    [DllImport("User32", ExactSpelling = true, SetLastError = true)]
-    internal static extern bool ReleaseCapture();
+    [LibraryImport("User32", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool ReleaseCapture();
 }

@@ -12,7 +12,13 @@ namespace BlazorDesktop.Services;
 /// <summary>
 /// The blazor desktop service.
 /// </summary>
-public class BlazorDesktopService : IHostedService, IDisposable
+/// <remarks>
+/// Creates a <see cref="BlazorDesktopService"/> instance.
+/// </remarks>
+/// <param name="lifetime">The <see cref="IHostApplicationLifetime"/>.</param>
+/// <param name="services">The <see cref="IServiceProvider"/>.</param>
+/// <param name="webViewInstaller">The <see cref="WebViewInstaller"/>.</param>
+public class BlazorDesktopService(IHostApplicationLifetime lifetime, IServiceProvider services, WebViewInstaller webViewInstaller) : IHostedService, IDisposable
 {
     /// <summary>
     /// The cancellation token registration.
@@ -22,31 +28,17 @@ public class BlazorDesktopService : IHostedService, IDisposable
     /// <summary>
     /// The application lifetime.
     /// </summary>
-    private readonly IHostApplicationLifetime _lifetime;
+    private readonly IHostApplicationLifetime _lifetime = lifetime;
 
     /// <summary>
     /// The web view installer.
     /// </summary>
-    private readonly WebViewInstaller _webViewInstaller;
+    private readonly WebViewInstaller _webViewInstaller = webViewInstaller;
 
     /// <summary>
     /// The services.
     /// </summary>
-    private readonly IServiceProvider _services;
-
-    /// <summary>
-    /// Creates a <see cref="BlazorDesktopService"/> instance.
-    /// </summary>
-    /// <param name="lifetime">The <see cref="IHostApplicationLifetime"/>.</param>
-    /// <param name="services">The <see cref="IServiceProvider"/>.</param>
-    /// <param name="webViewInstaller">The <see cref="WebViewInstaller"/>.</param>
-    public BlazorDesktopService(IHostApplicationLifetime lifetime, IServiceProvider services, WebViewInstaller webViewInstaller)
-    {
-        _applicationStoppingRegistration = new();
-        _lifetime = lifetime;
-        _services = services;
-        _webViewInstaller = webViewInstaller;
-    }
+    private readonly IServiceProvider _services = services;
 
     /// <summary>
     /// Starts the service.
@@ -55,10 +47,7 @@ public class BlazorDesktopService : IHostedService, IDisposable
     /// <returns>A task that represents starting the service.</returns>
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        _applicationStoppingRegistration = _lifetime.ApplicationStopping.Register(() =>
-        {
-            OnApplicationStopping();
-        });
+        _applicationStoppingRegistration = _lifetime.ApplicationStopping.Register(OnApplicationStopping);
 
         if (_webViewInstaller.Enabled)
         {
@@ -127,10 +116,7 @@ public class BlazorDesktopService : IHostedService, IDisposable
     {
         var app = _services.GetRequiredService<Application>();
 
-        app.Dispatcher.Invoke(() =>
-        {
-            app.Shutdown();
-        });
+        app.Dispatcher.Invoke(app.Shutdown);
     }
 
     /// <summary>

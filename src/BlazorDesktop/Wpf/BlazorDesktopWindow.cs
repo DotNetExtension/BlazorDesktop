@@ -20,7 +20,7 @@ namespace BlazorDesktop.Wpf;
 /// <summary>
 /// The blazor desktop window.
 /// </summary>
-public class BlazorDesktopWindow : Window
+public partial class BlazorDesktopWindow : Window
 {
     /// <summary>
     /// The <see cref="BlazorWebView"/>.
@@ -199,12 +199,12 @@ window.addEventListener('DOMContentLoaded', () => {
     {
         if (ShouldSystemUseDarkMode())
         {
-            _ = DwmSetWindowAttribute(new WindowInteropHelper(this).Handle, 20, new int[] { 1 }, Marshal.SizeOf(typeof(int)));
+            _ = DwmSetWindowAttribute(new WindowInteropHelper(this).Handle, 20, [1], Marshal.SizeOf(typeof(int)));
             Background = new SolidColorBrush(Color.FromRgb(25, 25, 25));
         }
         else
         {
-            _ = DwmSetWindowAttribute(new WindowInteropHelper(this).Handle, 20, new int[] { 0 }, Marshal.SizeOf(typeof(int)));
+            _ = DwmSetWindowAttribute(new WindowInteropHelper(this).Handle, 20, [0], Marshal.SizeOf(typeof(int)));
             Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
         }
     }
@@ -285,8 +285,9 @@ window.addEventListener('DOMContentLoaded', () => {
     /// Determines if apps should use dark mode.
     /// </summary>
     /// <returns>True if they should, otherwise false.</returns>
-    [DllImport("UXTheme.dll", SetLastError = true, EntryPoint = "#138")]
-    private static extern bool ShouldSystemUseDarkMode();
+    [LibraryImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool ShouldSystemUseDarkMode();
 
     /// <summary>
     /// Sets the value of Desktop Window Manager (DWM) non-client rendering attributes for a window.
@@ -296,6 +297,6 @@ window.addEventListener('DOMContentLoaded', () => {
     /// <param name="pvAttribute">A pointer to an object containing the attribute value to set.</param>
     /// <param name="cbAttribute">The size, in bytes, of the attribute value being set via the pvAttribute parameter.</param>
     /// <returns>If the function succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.</returns>
-    [DllImport("dwmapi.dll")]
-    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int dwAttribute, int[] pvAttribute, int cbAttribute);
+    [LibraryImport("dwmapi.dll")]
+    private static partial int DwmSetWindowAttribute(IntPtr hwnd, int dwAttribute, [In] int[] pvAttribute, int cbAttribute);
 }

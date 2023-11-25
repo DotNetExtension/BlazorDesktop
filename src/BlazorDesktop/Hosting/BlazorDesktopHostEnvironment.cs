@@ -10,7 +10,7 @@ namespace BlazorDesktop.Hosting;
 /// <summary>
 /// The blazor desktop host environment.
 /// </summary>
-internal class BlazorDesktopHostEnvironment : IWebHostEnvironment
+internal sealed class BlazorDesktopHostEnvironment : IWebHostEnvironment
 {
     /// <summary>
     /// The environment name.

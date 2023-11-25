@@ -12,10 +12,10 @@ public class WebViewInstaller
     /// <summary>
     /// If the installer should be used.
     /// </summary>
-    public bool Enabled { get; set; } = false;
+    public bool Enabled { get; set; }
 
     /// <summary>
     /// If the installer should be silent.
     /// </summary>
-    public bool SilentInstall { get; set; } = false;
+    public bool SilentInstall { get; set; }
 }

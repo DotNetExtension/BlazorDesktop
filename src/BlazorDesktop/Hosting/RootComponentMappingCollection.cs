@@ -20,10 +20,7 @@ public class RootComponentMappingCollection : Collection<RootComponentMapping>
     /// <exception cref="ArgumentNullException">Occurs when <paramref name="selector"/> is null.</exception>
     public void Add<TComponent>(string selector) where TComponent : IComponent
     {
-        if (selector is null)
-        {
-            throw new ArgumentNullException(nameof(selector));
-        }
+        ArgumentNullException.ThrowIfNull(selector);
 
         Add(new RootComponentMapping(typeof(TComponent), selector));
     }
@@ -47,15 +44,9 @@ public class RootComponentMappingCollection : Collection<RootComponentMapping>
     /// <exception cref="ArgumentNullException">Occurs when <paramref name="componentType"/> or <paramref name="selector"/> is null.</exception>
     public void Add(Type componentType, string selector, ParameterView parameters)
     {
-        if (componentType is null)
-        {
-            throw new ArgumentNullException(nameof(componentType));
-        }
+        ArgumentNullException.ThrowIfNull(componentType);
 
-        if (selector is null)
-        {
-            throw new ArgumentNullException(nameof(selector));
-        }
+        ArgumentNullException.ThrowIfNull(selector);
 
         Add(new RootComponentMapping(componentType, selector, parameters));
     }
@@ -67,10 +58,7 @@ public class RootComponentMappingCollection : Collection<RootComponentMapping>
     /// <exception cref="ArgumentNullException">Occurs when <paramref name="items"/> is null.</exception>
     public void AddRange(IEnumerable<RootComponentMapping> items)
     {
-        if (items is null)
-        {
-            throw new ArgumentNullException(nameof(items));
-        }
+        ArgumentNullException.ThrowIfNull(items);
 
         foreach (var item in items)
         {

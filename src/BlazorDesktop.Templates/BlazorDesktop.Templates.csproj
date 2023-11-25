@@ -17,12 +17,10 @@
     <PackageProjectUrl>https://github.com/AndrewBabbitt97/BlazorDesktop</PackageProjectUrl>
     <PackageTags>Blazor;Desktop;BlazorDesktop;WebView2;WebView</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetDirectory>content</ContentTargetDirectory>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryType>git</RepositoryType>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
     <PackageIcon>nuget.png</PackageIcon>
@@ -32,21 +30,6 @@
   <ItemGroup>
     <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
     <Compile Remove="**\*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\assets\nuget.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\..\README.md">
-      <Pack>true</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\..\LICENSE.txt">
-      <Pack>true</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
 </Project>

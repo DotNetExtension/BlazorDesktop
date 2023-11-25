@@ -12,10 +12,19 @@ public class WeatherForecastService
     /// <summary>
     /// The list of summaries
     /// </summary>
-    private static readonly string[] s_summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    private static readonly string[] s_summaries =
+    [
+        "Freezing",
+        "Bracing",
+        "Chilly",
+        "Cool",
+        "Mild",
+        "Warm",
+        "Balmy",
+        "Hot",
+        "Sweltering",
+        "Scorching"
+    ];
 
     /// <summary>
     /// Gets the weather forecast asynchronously
