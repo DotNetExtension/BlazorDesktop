@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/template",
-  "author": "Andrew Babbitt",
+  "author": ".NET Extension Contributors",
   "classifications": [
     "Web",
     "Blazor"

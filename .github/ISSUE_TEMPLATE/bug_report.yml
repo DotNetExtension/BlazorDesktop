@@ -8,11 +8,11 @@ body:
       value: |
         Please keep in mind that the GitHub issue tracker is not intended as a general support forum, but for reporting **non-security** bugs and feature requests.
 
-        If you believe you have an issue that affects the SECURITY of the project, please do NOT create an issue and instead follow the instructions in the [Security Policy](https://github.com/AndrewBabbitt97/BlazorDesktop/security/policy).
+        If you believe you have an issue that affects the SECURITY of the project, please do NOT create an issue and instead follow the instructions in the [Security Policy](https://github.com/DotNetExtension/BlazorDesktop/security/policy).
   - type: checkboxes
     attributes:
       label: Is there an existing issue for this?
-      description: Please search to see if an issue already exists for the bug you encountered ([issues](https://github.com/AndrewBabbitt97/BlazorDesktop/issues?q=is%3Aissue)).
+      description: Please search to see if an issue already exists for the bug you encountered ([issues](https://github.com/DotNetExtension/BlazorDesktop/issues?q=is%3Aissue)).
       options:
         - label: I have searched the existing issues
           required: true

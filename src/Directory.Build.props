@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Product>Blazor Desktop</Product>
     <Version>1.0.0</Version>
-    <Authors>Andrew Babbitt</Authors>
+    <Authors>.NET Extension Contributors</Authors>
     <Description>A framework for building desktop applications using Blazor.</Description>
-    <RepositoryUrl>https://github.com/AndrewBabbitt97/BlazorDesktop</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/AndrewBabbitt97/BlazorDesktop</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/AndrewBabbitt97/BlazorDesktop/releases</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/DotNetExtension/BlazorDesktop</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/DotNetExtension/BlazorDesktop</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/DotNetExtension/BlazorDesktop/releases</PackageReleaseNotes>
     <PackageTags>Blazor;Desktop;BlazorDesktop;WebView2;WebView</PackageTags>
   </PropertyGroup>
 
