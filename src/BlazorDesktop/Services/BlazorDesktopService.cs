@@ -14,39 +14,48 @@ namespace BlazorDesktop.Services;
 /// <summary>
 /// The blazor desktop service.
 /// </summary>
-/// <remarks>
-/// Creates a <see cref="BlazorDesktopService"/> instance.
-/// </remarks>
-/// <param name="lifetime">The <see cref="IHostApplicationLifetime"/>.</param>
-/// <param name="services">The <see cref="IServiceProvider"/>.</param>
-/// <param name="logger">The <see cref="ILogger{TCategoryName}"/>.</param>
-/// <param name="webViewInstaller">The <see cref="WebViewInstaller"/>.</param>
-public partial class BlazorDesktopService(IHostApplicationLifetime lifetime, IServiceProvider services, ILogger<BlazorDesktopService> logger, WebViewInstaller webViewInstaller) : IHostedService, IDisposable
+public partial class BlazorDesktopService : IHostedService, IDisposable
 {
-    /// <summary>
-    /// The application lifetime.
-    /// </summary>
-    private readonly IHostApplicationLifetime _lifetime = lifetime;
-
-    /// <summary>
-    /// The services.
-    /// </summary>
-    private readonly IServiceProvider _services = services;
-
-    /// <summary>
-    /// The <see cref="ILogger{TCategoryName}"/>.
-    /// </summary>
-    private readonly ILogger<BlazorDesktopService> _logger = logger;
-
-    /// <summary>
-    /// The web view installer.
-    /// </summary>
-    private readonly WebViewInstaller _webViewInstaller = webViewInstaller;
-
     /// <summary>
     /// The cancellation token registration.
     /// </summary>
     private CancellationTokenRegistration _applicationStoppingRegistration;
+
+    /// <summary>
+    /// The application lifetime.
+    /// </summary>
+    private readonly IHostApplicationLifetime _lifetime;
+
+    /// <summary>
+    /// The services.
+    /// </summary>
+    private readonly IServiceProvider _services;
+
+    /// <summary>
+    /// The <see cref="ILogger{TCategoryName}"/>.
+    /// </summary>
+    private readonly ILogger<BlazorDesktopService> _logger;
+
+    /// <summary>
+    /// The web view installer.
+    /// </summary>
+    private readonly WebViewInstaller _webViewInstaller;
+
+    /// <summary>
+    /// Creates a <see cref="BlazorDesktopService"/> instance.
+    /// </summary>
+    /// <param name="lifetime">The <see cref="IHostApplicationLifetime"/>.</param>
+    /// <param name="services">The <see cref="IServiceProvider"/>.</param>
+    /// <param name="logger">The <see cref="ILogger{TCategoryName}"/>.</param>
+    /// <param name="webViewInstaller">The <see cref="WebViewInstaller"/>.</param>
+    public BlazorDesktopService(IHostApplicationLifetime lifetime, IServiceProvider services, ILogger<BlazorDesktopService> logger, WebViewInstaller webViewInstaller)
+    {
+        _applicationStoppingRegistration = new();
+        _lifetime = lifetime;
+        _services = services;
+        _logger = logger;
+        _webViewInstaller = webViewInstaller;
+    }
 
     /// <summary>
     /// Starts the service.

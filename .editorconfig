@@ -56,6 +56,9 @@ dotnet_diagnostic.IDE0035.severity = warning
 # IDE0045: Use conditional expression for assignment
 dotnet_style_prefer_conditional_expression_over_assignment = false
 
+# IDE0046: Use conditional expression for return
+dotnet_style_prefer_conditional_expression_over_return = false
+
 # IDE0049: Use language keywords instead of framework type names for type references
 dotnet_diagnostic.IDE0049.severity = warning
 
@@ -70,6 +73,12 @@ dotnet_diagnostic.IDE0079.severity = warning
 
 # IDE0160-IDE0161: Namespace declaration preferences
 csharp_style_namespace_declarations = file_scoped
+
+# IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0130.severity = warning
+
+# IDE0290: Use primary constructor
+csharp_style_prefer_primary_constructors = false
 
 # IDE1006: Naming styles
 dotnet_naming_rule.non_private_static_fields_should_be_pascal_case.severity = warning

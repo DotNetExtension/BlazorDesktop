@@ -32,7 +32,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <BaseOutputPath>$(MSBuildThisFileDirectory)../bin/$(MSBuildProjectName)</BaseOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)bin/$(MSBuildProjectName)</BaseOutputPath>
     <Copyright>© $(Authors). All rights reserved.</Copyright>
     <RepositoryType>git</RepositoryType>
     <IncludeSymbols>true</IncludeSymbols>
@@ -44,9 +44,9 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsPackable) == 'true'">
-    <None Include="$(MSBuildThisFileDirectory)../assets/nuget.png" Visible="false" Pack="true" PackagePath="" />
-    <None Include="$(MSBuildThisFileDirectory)../README.md" Visible="false" Pack="true" PackagePath="" />
-    <None Include="$(MSBuildThisFileDirectory)../LICENSE.txt" Visible="False" Pack="true" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)assets/nuget.png" Visible="false" Pack="true" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)README.md" Visible="false" Pack="true" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)LICENSE.txt" Visible="False" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

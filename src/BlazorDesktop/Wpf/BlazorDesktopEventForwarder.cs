@@ -9,11 +9,7 @@ namespace BlazorDesktop.Wpf;
 /// <summary>
 /// The blazor desktop event forwarder.
 /// </summary>
-/// <remarks>
-/// Creates an instance of <see cref="BlazorDesktopEventForwarder"/>.
-/// </remarks>
-/// <param name="target">The target handle.</param>
-public partial class BlazorDesktopEventForwarder(IntPtr target)
+public partial class BlazorDesktopEventForwarder
 {
     /// <summary>
     /// Posted when the user presses the left mouse button while the cursor is
@@ -29,7 +25,16 @@ public partial class BlazorDesktopEventForwarder(IntPtr target)
     /// <summary>
     /// The target
     /// </summary>
-    private readonly IntPtr _target = target;
+    private readonly IntPtr _target;
+
+    /// <summary>
+    /// Creates an instance of <see cref="BlazorDesktopEventForwarder"/>.
+    /// </summary>
+    /// <param name="target">The target handle.</param>
+    public BlazorDesktopEventForwarder(IntPtr target)
+    {
+        _target = target;
+    }
 
     /// <summary>
     /// Occurs when the mouse starts dragging.
