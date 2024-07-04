@@ -44,15 +44,8 @@ public sealed class BlazorDesktopHostBuilder
     /// </summary>
     public ConfigureWindowBuilder Window { get; }
 
-    /// <summary>
-    /// The host application builder.
-    /// </summary>
     private readonly HostApplicationBuilder _hostApplicationBuilder;
 
-    /// <summary>
-    /// Creates an instance of <see cref="BlazorDesktopHostBuilder"/> with the minimal configuration.
-    /// </summary>
-    /// <param name="args">The arguments passed to the application's main method.</param>
     private BlazorDesktopHostBuilder(string[]? args)
     {
         _hostApplicationBuilder = InitializeHostApplicationBuilder(args);
@@ -111,11 +104,6 @@ public sealed class BlazorDesktopHostBuilder
         return new(_hostApplicationBuilder.Build());
     }
 
-    /// <summary>
-    /// Initializes the host application builder.
-    /// </summary>
-    /// <param name="args">The arguments passed to the application's main method.</param>
-    /// <returns>A <see cref="HostApplicationBuilder"/>.</returns>
     private static HostApplicationBuilder InitializeHostApplicationBuilder(string[]? args)
     {
         var configuration = new ConfigurationManager();
@@ -129,11 +117,9 @@ public sealed class BlazorDesktopHostBuilder
         });
     }
 
-    /// <summary>
-    /// Initializes the default services.
-    /// </summary>
     private void InitializeDefaultServices()
     {
+        Services.AddHttpClient();
         Services.AddWpfBlazorWebView();
         Services.AddSingleton<WebViewInstaller>();
         Services.AddSingleton<Application>();
@@ -141,10 +127,6 @@ public sealed class BlazorDesktopHostBuilder
         Services.AddHostedService<BlazorDesktopService>();
     }
 
-    /// <summary>
-    /// Initializes the root components.
-    /// </summary>
-    /// <returns>A <see cref="RootComponentMappingCollection"/>.</returns>
     private RootComponentMappingCollection InitializeRootComponents()
     {
         var rootComponents = new RootComponentMappingCollection();
@@ -154,10 +136,6 @@ public sealed class BlazorDesktopHostBuilder
         return rootComponents;
     }
 
-    /// <summary>
-    /// Initializes the environment.
-    /// </summary>
-    /// <returns>A <see cref="BlazorDesktopHostEnvironment"/>.</returns>
     private BlazorDesktopHostEnvironment InitializeEnvironment()
     {
         var hostEnvironment = new BlazorDesktopHostEnvironment(_hostApplicationBuilder.Environment, Configuration);
@@ -167,10 +145,6 @@ public sealed class BlazorDesktopHostBuilder
         return hostEnvironment;
     }
 
-    /// <summary>
-    /// Initializes the window builder.
-    /// </summary>
-    /// <returns>A <see cref="ConfigureWindowBuilder"/>.</returns>
     private ConfigureWindowBuilder InitializeWindowBuilder()
     {
         return new ConfigureWindowBuilder(Configuration);

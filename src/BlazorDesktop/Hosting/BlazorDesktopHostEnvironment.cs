@@ -58,9 +58,6 @@ internal sealed class BlazorDesktopHostEnvironment : IWebHostEnvironment
     /// </summary>
     public IFileProvider WebRootFileProvider { get; set; }
 
-    /// <summary>
-    /// The host environment.
-    /// </summary>
     private readonly IHostEnvironment _hostEnvironment;
 
     /// <summary>

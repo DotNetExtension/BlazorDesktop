@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using BlazorDesktop.Wpf;
-using WebView2.Runtime.AutoInstaller;
 
 namespace BlazorDesktop.Services;
 
@@ -16,29 +15,10 @@ namespace BlazorDesktop.Services;
 /// </summary>
 public partial class BlazorDesktopService : IHostedService, IDisposable
 {
-    /// <summary>
-    /// The cancellation token registration.
-    /// </summary>
     private CancellationTokenRegistration _applicationStoppingRegistration;
-
-    /// <summary>
-    /// The application lifetime.
-    /// </summary>
     private readonly IHostApplicationLifetime _lifetime;
-
-    /// <summary>
-    /// The services.
-    /// </summary>
     private readonly IServiceProvider _services;
-
-    /// <summary>
-    /// The <see cref="ILogger{TCategoryName}"/>.
-    /// </summary>
     private readonly ILogger<BlazorDesktopService> _logger;
-
-    /// <summary>
-    /// The web view installer.
-    /// </summary>
     private readonly WebViewInstaller _webViewInstaller;
 
     /// <summary>
@@ -66,10 +46,7 @@ public partial class BlazorDesktopService : IHostedService, IDisposable
     {
         _applicationStoppingRegistration = _lifetime.ApplicationStopping.Register(OnApplicationStopping);
 
-        if (_webViewInstaller.Enabled)
-        {
-            await WebView2AutoInstaller.CheckAndInstallAsync(silentInstall: _webViewInstaller.SilentInstall, cancellationToken: cancellationToken);
-        }
+        await _webViewInstaller.EnsureInstalledAsync(cancellationToken);
 
         var thread = new Thread(ApplicationThread);
         thread.SetApartmentState(ApartmentState.STA);
@@ -86,18 +63,9 @@ public partial class BlazorDesktopService : IHostedService, IDisposable
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// Logs an unhanded component exception,
-    /// </summary>
-    /// <param name="logger">The <see cref="ILogger"/>.</param>
-    /// <param name="message">The message.</param>
-    /// <param name="exception">The <see cref="Exception"/>.</param>
     [LoggerMessage(0, LogLevel.Critical, "Unhandled exception rendering component: {Message}", EventName = "ExceptionRenderingComponent")]
     private static partial void LogUnhandledExceptionRenderingComponent(ILogger logger, string message, Exception exception);
 
-    /// <summary>
-    /// The application thread.
-    /// </summary>
     private void ApplicationThread()
     {
         var app = _services.GetRequiredService<Application>();
@@ -116,11 +84,6 @@ public partial class BlazorDesktopService : IHostedService, IDisposable
         app.Startup -= OnApplicationStartup;
     }
 
-    /// <summary>
-    /// Occurs when the application is starting up.
-    /// </summary>
-    /// <param name="sender">The sending object.</param>
-    /// <param name="e">The arguments.</param>
     private void OnApplicationStartup(object sender, StartupEventArgs e)
     {
         var app = _services.GetRequiredService<Application>();
@@ -130,21 +93,11 @@ public partial class BlazorDesktopService : IHostedService, IDisposable
         app.MainWindow.Show();
     }
 
-    /// <summary>
-    /// Occurs when the application exits.
-    /// </summary>
-    /// <param name="sender">The sending object.</param>
-    /// <param name="e">The arguments.</param>
     private void OnApplicationExit(object? sender, ExitEventArgs e)
     {
         _lifetime.StopApplication();
     }
 
-    /// <summary>
-    /// Occurs when the application throws an exception.
-    /// </summary>
-    /// <param name="sender">The sending object.</param>
-    /// <param name="e">The arguments.</param>
     private void OnApplicationException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
         if (e.Exception is TargetInvocationException && e.Exception.InnerException is not null)
@@ -159,9 +112,6 @@ public partial class BlazorDesktopService : IHostedService, IDisposable
         e.Handled = true;
     }
 
-    /// <summary>
-    /// Occurs when the application is stopping.
-    /// </summary>
     private void OnApplicationStopping()
     {
         var app = _services.GetRequiredService<Application>();

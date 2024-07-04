@@ -32,29 +32,10 @@ public partial class BlazorDesktopWindow : Window
     /// </summary>
     public Border WebViewBorder { get; }
 
-    /// <summary>
-    /// The service provider.
-    /// </summary>
     private readonly IServiceProvider _services;
-
-    /// <summary>
-    /// The configuration.
-    /// </summary>
     private readonly IConfiguration _config;
-
-    /// <summary>
-    /// The hosting environment.
-    /// </summary>
     private readonly IWebHostEnvironment _environment;
-
-    /// <summary>
-    /// The UI settings.
-    /// </summary>
     private readonly UISettings _uiSettings;
-
-    /// <summary>
-    /// The drag script.
-    /// </summary>
     private const string DragScript =
 @"
 window.addEventListener('DOMContentLoaded', () => {
@@ -92,9 +73,6 @@ window.addEventListener('DOMContentLoaded', () => {
         InitializeTheming();
     }
 
-    /// <summary>
-    /// Initializes the window.
-    /// </summary>
     private void InitializeWindow()
     {
         Name = "BlazorDesktopWindow";
@@ -112,9 +90,6 @@ window.addEventListener('DOMContentLoaded', () => {
         StateChanged += WindowStateChanged;
     }
 
-    /// <summary>
-    /// Initializes the web view border.
-    /// </summary>
     private void InitializeWebViewBorder()
     {
         WebViewBorder.Name = "BlazorDesktopWebViewBorder";
@@ -122,9 +97,6 @@ window.addEventListener('DOMContentLoaded', () => {
         WebViewBorder.Child = WebView;
     }
 
-    /// <summary>
-    /// Initializes the web view.
-    /// </summary>
     private void InitializeWebView()
     {
         WebView.Name = "BlazorDesktopWebView";
@@ -144,20 +116,12 @@ window.addEventListener('DOMContentLoaded', () => {
         WebView.Loaded += WebViewLoaded;
     }
 
-    /// <summary>
-    /// Initializes theming.
-    /// </summary>
     private void InitializeTheming()
     {
         SourceInitialized += WindowSourceInitialized;
         _uiSettings.ColorValuesChanged += ThemeChanged;
     }
 
-    /// <summary>
-    /// Occurs when the window state changes.
-    /// </summary>
-    /// <param name="sender">The sending object.</param>
-    /// <param name="e">The arguments.</param>
     private void WindowStateChanged(object? sender, EventArgs e)
     {
         var useFrame = _config.GetValue<bool?>(WindowDefaults.Frame) ?? true;
@@ -172,29 +136,16 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /// <summary>
-    /// Occurs when the window source has initialized.
-    /// </summary>
-    /// <param name="sender">The sending object.</param>
-    /// <param name="e">The arguments.</param>
     private void WindowSourceInitialized(object? sender, EventArgs e)
     {
         UpdateTheme();
     }
 
-    /// <summary>
-    /// Occurs when the theme changes.
-    /// </summary>
-    /// <param name="sender">The sending object.</param>
-    /// <param name="args">The arguments.</param>
     private void ThemeChanged(UISettings sender, object args)
     {
         Dispatcher.Invoke(new(UpdateTheme));
     }
 
-    /// <summary>
-    /// Update the current theme to match the system.
-    /// </summary>
     private void UpdateTheme()
     {
         if (ShouldSystemUseDarkMode())
@@ -209,10 +160,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /// <summary>
-    /// If a frame should be used.
-    /// </summary>
-    /// <param name="frame">If the frame should be used.</param>
     private void UseFrame(bool frame)
     {
         if (!frame)
@@ -221,10 +168,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /// <summary>
-    /// Uses an icon.
-    /// </summary>
-    /// <param name="icon">The icon string</param>
     private void UseIcon(string icon)
     {
         var defaultIconPath = Path.Combine(_environment.WebRootPath, "favicon.ico");
@@ -243,21 +186,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /// <summary>
-    /// Occurs when the web view has loaded.
-    /// </summary>
-    /// <param name="sender">The sending object.</param>
-    /// <param name="e">The arguments.</param>
     private void WebViewLoaded(object sender, RoutedEventArgs e)
     {
         WebView.WebView.CoreWebView2InitializationCompleted += WebViewInitializationCompleted;
     }
 
-    /// <summary>
-    /// Occurs when the web view has finished initialization.
-    /// </summary>
-    /// <param name="sender">The sending object.</param>
-    /// <param name="e">The arguments.</param>
     private void WebViewInitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e)
     {
         var eventForwarder = new BlazorDesktopEventForwarder(new WindowInteropHelper(this).Handle);
@@ -269,11 +202,6 @@ window.addEventListener('DOMContentLoaded', () => {
         WebView.WebView.DefaultBackgroundColor = System.Drawing.Color.Transparent;
     }
 
-    /// <summary>
-    /// Occurs when the web view has finished navigating.
-    /// </summary>
-    /// <param name="sender">The sending object.</param>
-    /// <param name="e">The arguments.</param>
     private void BlazorWebViewNavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs e)
     {
         WindowState = WindowState.Normal;
@@ -281,22 +209,10 @@ window.addEventListener('DOMContentLoaded', () => {
         WebView.WebView.CoreWebView2.NavigationCompleted -= BlazorWebViewNavigationCompleted;
     }
 
-    /// <summary>
-    /// Determines if apps should use dark mode.
-    /// </summary>
-    /// <returns>True if they should, otherwise false.</returns>
     [LibraryImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool ShouldSystemUseDarkMode();
 
-    /// <summary>
-    /// Sets the value of Desktop Window Manager (DWM) non-client rendering attributes for a window.
-    /// </summary>
-    /// <param name="hwnd">The handle to the window for which the attribute value is to be set.</param>
-    /// <param name="dwAttribute">A flag describing which value to set, specified as a value of the DWMWINDOWATTRIBUTE enumeration.</param>
-    /// <param name="pvAttribute">A pointer to an object containing the attribute value to set.</param>
-    /// <param name="cbAttribute">The size, in bytes, of the attribute value being set via the pvAttribute parameter.</param>
-    /// <returns>If the function succeeds, it returns S_OK. Otherwise, it returns an HRESULT error code.</returns>
     [LibraryImport("dwmapi.dll")]
     private static partial int DwmSetWindowAttribute(IntPtr hwnd, int dwAttribute, [In] int[] pvAttribute, int cbAttribute);
 }

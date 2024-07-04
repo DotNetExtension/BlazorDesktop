@@ -9,15 +9,8 @@ namespace BlazorDesktop.Hosting;
 /// </summary>
 public class ConfigureWindowBuilder
 {
-    /// <summary>
-    /// The configuration.
-    /// </summary>
     private readonly IConfiguration _configuration;
 
-    /// <summary>
-    /// Creates a instance of <see cref="ConfigureWindowBuilder"/>.
-    /// </summary>
-    /// <param name="configuration">The configuration.</param>
     internal ConfigureWindowBuilder(IConfiguration configuration)
     {
         _configuration = configuration;

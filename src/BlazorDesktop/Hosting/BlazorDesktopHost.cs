@@ -20,15 +20,8 @@ public sealed class BlazorDesktopHost : IHost, IAsyncDisposable
     /// </summary>
     public IServiceProvider Services => _host.Services;
 
-    /// <summary>
-    /// The host.
-    /// </summary>
     private readonly IHost _host;
 
-    /// <summary>
-    /// Creates an instance of <see cref="BlazorDesktopHost"/> with a specified <see cref="IHost"/>.
-    /// </summary>
-    /// <param name="host">The <see cref="IHost"/> instance.</param>
     internal BlazorDesktopHost(IHost host)
     {
         _host = host;
