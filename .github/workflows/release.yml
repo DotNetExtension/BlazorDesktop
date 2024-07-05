@@ -34,7 +34,7 @@ jobs:
         run: dotnet pack -c Release -p:Version=${{ github.event.release.tag_name }} -o bin/release
 
       - name: Push Packages
-        run: dotnet nuget push 'bin\\release\\*.*' --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push 'bin\release\*.*' --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
       - name: Update release
         uses: ncipollo/release-action@v1
