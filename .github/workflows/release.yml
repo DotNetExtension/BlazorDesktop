@@ -13,6 +13,15 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v4
 
+      - name: Build changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          toTag: ${{ github.event.release.tag_name }}
+          commitMode: true
+          configuration: .github/changelog.json
+
       - name: Set up .NET
         uses: zyactions/dotnet-setup@v1
         with:
@@ -32,3 +41,12 @@ jobs:
 
       - name: Push Templates
         run: dotnet push bin/BlazorDesktop.Templates/Release/BlazorDesktop.Templates.${{ github.event.release.tag_name }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+
+      - name: Update release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.event.release.tag_name }}
+          allowUpdates: true
+          prerelease: ${{ github.event.release.prerelease }}
+          body: ${{ steps.changelog.outputs.changelog }}
