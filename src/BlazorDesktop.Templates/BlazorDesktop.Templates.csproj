@@ -1,34 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>3.1.1</PackageVersion>
-    <PackageId>BlazorDesktop.Templates</PackageId>
-    <Title>Blazor Desktop Templates</Title>
-    <Authors>.NET Extension Contributors</Authors>
-    <Company>.NET Extension Contributors</Company>
-    <Product>Blazor Desktop</Product>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/DotNetExtension/BlazorDesktop</RepositoryUrl>
-    <PackageReleaseNotes>https://github.com/DotNetExtension/BlazorDesktop/releases</PackageReleaseNotes>
-    <Description>A framework for building desktop applications using Blazor.</Description>
-    <Copyright>© .NET Extension Contributors. All rights reserved.</Copyright>
-    <PackageProjectUrl>https://github.com/DotNetExtension/BlazorDesktop</PackageProjectUrl>
-    <PackageTags>Blazor;Desktop;BlazorDesktop;WebView2;WebView</PackageTags>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <IncludeContentInPack>true</IncludeContentInPack>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <ContentTargetDirectory>content</ContentTargetDirectory>
-    <RepositoryType>git</RepositoryType>
+    <IncludeSymbols>false</IncludeSymbols>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <ContentTargetFolders>content</ContentTargetFolders>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
-    <PackageIcon>nuget.png</PackageIcon>
-    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+    <PackageReference Include="Microsoft.TemplateEngine.Tasks" Version="*" PrivateAssets="all" IsImplicitlyDefined="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="content\**\*" Exclude="content\**\bin\**;content\**\obj\**" />
     <Compile Remove="**\*" />
   </ItemGroup>
 

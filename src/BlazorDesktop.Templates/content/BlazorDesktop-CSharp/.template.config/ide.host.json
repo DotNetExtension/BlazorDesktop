@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json.schemastore.org/ide.host",
+  "order": 610,
+  "icon": "icon.png",
+  "symbolInfo": [
+    {
+      "id": "IncludeSampleContent",
+      "isVisible": true,
+      "persistenceScope": "shared",
+      "persistenceScopeName": "BlazorDesktop"
+    },
+    {
+      "id": "UseProgramMain",
+      "isVisible": true,
+      "persistenceScope": "shared",
+      "persistenceScopeName": "BlazorDesktop"
+    }
+  ]
+}

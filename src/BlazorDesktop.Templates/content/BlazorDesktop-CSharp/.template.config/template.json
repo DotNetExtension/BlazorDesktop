@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": ".NET Extension Contributors",
+  "classifications": [
+    "Web",
+    "Blazor",
+    "Desktop"
+  ],
+  "name": "Blazor Desktop App",
+  "defaultName": "BlazorApp",
+  "description": "A project template for creating a Blazor app that runs inside a WPF host. This template can be used for web apps with rich dynamic user interfaces (UIs).",
+  "groupIdentity": "BlazorDesktop",
+  "precedence": "9800",
+  "identity": "BlazorDesktop.CSharp",
+  "preferNameDirectory": true,
+  "primaryOutputs": [
+    {
+      "path": "BlazorDesktop-CSharp.csproj"
+    }
+  ],
+  "shortName": "blazordesktop",
+  "sourceName": "BlazorDesktop-CSharp",
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+      "exclude": [
+        ".template.config/**"
+      ],
+      "copyOnly": [
+        "**/wwwroot/css/bootstrap/**"
+      ],
+      "modifiers": [
+        {
+          "condition": "(!UseProgramMain)",
+          "exclude": [
+            "Program.Main.cs"
+          ]
+        },
+        {
+          "condition": "(UseProgramMain)",
+          "exclude": [
+            "Program.cs"
+          ],
+          "rename": {
+            "Program.Main.cs": "Program.cs"
+          }
+        },
+        {
+          "condition": "(ExcludeLaunchSettings)",
+          "exclude": [
+            "Properties/launchSettings.json"
+          ]
+        },
+        {
+          "condition": "(!SampleContent)",
+          "exclude": [
+            "Components/Pages/Counter.*",
+            "Components/Pages/Weather.*",
+            "Components/Layout/MainLayout.razor.css",
+            "Components/Layout/NavMenu.*",
+            "wwwroot/css/bootstrap/**",
+            "wwwroot/favicon.*"
+          ]
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "Framework": {
+      "type": "parameter",
+      "description": "The target framework for the project.",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "net8.0",
+          "description": "Target net8.0"
+        }
+      ],
+      "replaces": "net8.0",
+      "defaultValue": "net8.0"
+    },
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "HostIdentifier"
+    },
+    "SkipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "If specified, skips the automatic restore of the project on create.",
+      "defaultValue": "false"
+    },
+    "ExcludeLaunchSettings": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "description": "Whether to exclude launchSettings.json from the generated template."
+    },
+    "IncludeSampleContent": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "displayName": "_Include sample pages",
+      "description": "Configures whether to add sample pages and styling to demonstrate basic usage patterns."
+    },
+    "Empty": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "description": "Configures whether to omit sample pages and styling that demonstrate basic usage patterns."
+    },
+    "SampleContent": {
+      "type": "computed",
+      "value": "(((IncludeSampleContent && (HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\"))) || ((!Empty && (HostIdentifier == \"dotnetcli\" || HostIdentifier == \"dotnetcli-preview\"))))"
+    },
+    "UseProgramMain": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "Do not use _top-level statements",
+      "description": "Whether to generate an explicit Program class and Main method instead of top-level statements."
+    }
+  },
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "postActions": [
+    {
+      "id": "restore",
+      "condition": "(!SkipRestore)",
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore'"
+        }
+      ],
+      "args": {
+        "files": ["BlazorDesktop-CSharp.csproj"]
+      },
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
+}
