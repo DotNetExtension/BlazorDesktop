@@ -1,0 +1,34 @@
+name: Release Blazor Desktop
+
+on:
+  release:
+    types: [prereleased,released]
+
+jobs:
+  release:
+    name: Release Blazor Desktop
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: zyactions/dotnet-setup@v1
+        with:
+          global-json-file: global.json
+
+      - name: Restore .NET dependencies
+        uses: zyactions/dotnet-restore@v1
+
+      - name: Pack solution
+        run: dotnet pack -c Release -p:Version=${{ github.event.release.tag_name }}
+
+      - name: Push Package
+        run: dotnet push bin/BlazorDesktop/Release/BlazorDesktop.${{ github.event.release.tag_name }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+
+      - name: Push Symbols
+        run: dotnet push bin/BlazorDesktop/Release/BlazorDesktop.${{ github.event.release.tag_name }}.snupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+
+      - name: Push Templates
+        run: dotnet push bin/BlazorDesktop.Templates/Release/BlazorDesktop.Templates.${{ github.event.release.tag_name }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
