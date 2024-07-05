@@ -4,11 +4,10 @@
 
 using Microsoft.AspNetCore.Components.Web;
 using BlazorDesktop.Hosting;
-using BlazorDesktop.Sample.Components;
 
 var builder = BlazorDesktopHostBuilder.CreateDefault(args);
 
-builder.RootComponents.Add<Routes>("#app");
+builder.RootComponents.Add<BlazorDesktop.Sample.Components.Routes>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 if (builder.HostEnvironment.IsDevelopment())
