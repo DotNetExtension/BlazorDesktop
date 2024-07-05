@@ -31,16 +31,10 @@ jobs:
         uses: zyactions/dotnet-restore@v1
 
       - name: Pack solution
-        run: dotnet pack -c Release -p:Version=${{ github.event.release.tag_name }}
+        run: dotnet pack -c Release -p:Version=${{ github.event.release.tag_name }} -o bin/release
 
-      - name: Push Package
-        run: dotnet push bin/BlazorDesktop/Release/BlazorDesktop.${{ github.event.release.tag_name }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
-
-      - name: Push Symbols
-        run: dotnet push bin/BlazorDesktop/Release/BlazorDesktop.${{ github.event.release.tag_name }}.snupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
-
-      - name: Push Templates
-        run: dotnet push bin/BlazorDesktop.Templates/Release/BlazorDesktop.Templates.${{ github.event.release.tag_name }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      - name: Push Packages
+        run: dotnet push bin/release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
       - name: Update release
         uses: ncipollo/release-action@v1
@@ -50,3 +44,4 @@ jobs:
           allowUpdates: true
           prerelease: ${{ github.event.release.prerelease }}
           body: ${{ steps.changelog.outputs.changelog }}
+          artifacts: bin/release/*.*
