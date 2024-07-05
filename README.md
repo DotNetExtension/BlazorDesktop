@@ -4,7 +4,7 @@
 
 # Blazor Desktop
 Blazor Desktop allows you to create desktop apps using Blazor. Apps run inside of a .NET generic host with a WPF window thats fully managed using a similar template to Blazor WASM.
-![app](https://user-images.githubusercontent.com/2308261/212734109-a405ebe1-bd39-495b-b663-b8522b88f36c.png)
+![preview](https://github.com/DotNetExtension/BlazorDesktop/assets/2308261/7d025b49-e2f8-4b07-a57d-35f9a319d859)
 
 # Getting Started
 The easiest way to get started with Blazor Desktop is to install the templates, you can do so using the dotnet cli as follows:
@@ -14,7 +14,7 @@ dotnet new install BlazorDesktop.Templates::8.0.0
 ```
 
 Once you have the templates installed, you can either create a new project from the template either in Visual Studio in the template picker:
-![desktop](https://user-images.githubusercontent.com/2308261/153132853-5430710e-a4d7-434d-a46c-1269b9865711.png)
+![create](https://github.com/DotNetExtension/BlazorDesktop/assets/2308261/5ac50c95-9b90-4d5f-bb4f-7aa8a242d823)
 
 Or, you can create a new project using the cli as follows:
 ```powershell
@@ -26,18 +26,13 @@ The Blazor Desktop template is set up very similar to the Blazor WASM template, 
 
 ```csharp
 using BlazorDesktop.Hosting;
-using HelloWorld;
-using HelloWorld.Data;
+using HelloWorld.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 var builder = BlazorDesktopHostBuilder.CreateDefault(args);
 
-builder.UseWebViewInstaller();
-
-builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<Routes>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-
-builder.Services.AddSingleton<WeatherForecastService>();
 
 if (builder.HostEnvironment.IsDevelopment())
 {
@@ -65,7 +60,7 @@ builder.Window
     .UseWidth(1920)
     .UseHeight(1080)
     .UseMinWidth(1280)
-    .UseMinHeight(720);
+    .UseMinHeight(720)
     .UseMaxWidth(2560)
     .UseMaxHeight(1440);
 ```
@@ -102,15 +97,11 @@ It is also possible to configure these values through `appsettings.json` like so
   },
   "Logging": {
     "LogLevel": {
-      "Default": "Information"
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
     }
   }
 }
-```
-
-Blazor Desktop will automatically install a web view runtime for the user if they do not already have it installed, you can disable this if you wish:
-```csharp
-builder.UseWebViewInstaller(false);
 ```
 
 **The `Window` object itself is also made available inside of the DI container, so you can access all properties on it by using the inject Razor keyword or requesting it through the constructor of a class added as a service.**
@@ -134,7 +125,7 @@ Using the base template, if you were to edit `MainLayout.razor` and add a `-webk
 
     <main>
         <div class="top-row px-4" style="-webkit-app-region: drag;">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>
 
         <article class="content px-4">
@@ -161,11 +152,10 @@ Here is an example changing `MainLayout.razor`:
 
     <main>
         <div class="top-row px-4" style="-webkit-app-region: drag;">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>
 
         <article class="content px-4">
-            <button @onclick="CloseWindow">Close Window</button>
             @Body
         </article>
     </main>
