@@ -66,7 +66,7 @@ dotnet_diagnostic.IDE0049.severity = warning
 dotnet_diagnostic.IDE0058.severity = silent
 
 # IDE0073: Use file header
-file_header_template = Licensed to the Blazor Desktop Contributors under one or more agreements.\nThe Blazor Desktop Contributors licenses this file to you under the MIT license.\nSee the LICENSE file in the project root for more information.
+file_header_template = Licensed to the .NET Extension Contributors under one or more agreements.\nThe .NET Extension Contributors licenses this file to you under the MIT license.\nSee the LICENSE file in the project root for more information.
 
 # IDE0079: Remove unnecessary suppression
 dotnet_diagnostic.IDE0079.severity = warning
