@@ -1,4 +1,4 @@
-name: Release Blazor Desktop
+name: Release Project
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   release:
-    name: Release Blazor Desktop
+    name: Release Project
     runs-on: windows-latest
 
     steps:
