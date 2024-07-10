@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.61" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.70" />
   </ItemGroup>
 
 </Project>
