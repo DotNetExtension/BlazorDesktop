@@ -75,15 +75,75 @@ window.addEventListener('DOMContentLoaded', () => {
 
     private void InitializeWindow()
     {
+        var height = _config.GetValue<int?>(WindowDefaults.Height) ?? 768;
+        var width = _config.GetValue<int?>(WindowDefaults.Width) ?? 1366;
+        var minHeight = _config.GetValue<int?>(WindowDefaults.MinHeight) ?? 0;
+        var minWidth = _config.GetValue<int?>(WindowDefaults.MinWidth) ?? 0;
+        var maxHeight = _config.GetValue<int?>(WindowDefaults.MaxHeight) ?? double.PositiveInfinity;
+        var maxWidth = _config.GetValue<int?>(WindowDefaults.MaxWidth) ?? double.PositiveInfinity;
+
+        var useFrame = _config.GetValue<bool?>(WindowDefaults.Frame) ?? true;
+
+        if (useFrame)
+        {
+            height += 7;
+            width += 14;
+
+            if (minHeight != 0)
+            {
+                minHeight += 7;
+            }
+
+            if (minWidth != 0)
+            {
+                minWidth += 14;
+            }
+
+            if (maxHeight != double.PositiveInfinity)
+            {
+                maxHeight += 7;
+            }
+
+            if (maxWidth != double.PositiveInfinity)
+            {
+                maxWidth += 14;
+            }
+        }
+        else
+        {
+            height += 3;
+            width += 6;
+
+            if (minHeight != 0)
+            {
+                minHeight += 3;
+            }
+
+            if (minWidth != 0)
+            {
+                minWidth += 6;
+            }
+
+            if (maxHeight != double.PositiveInfinity)
+            {
+                maxHeight += 3;
+            }
+
+            if (maxWidth != double.PositiveInfinity)
+            {
+                maxWidth += 6;
+            }
+        }
+
         Name = "BlazorDesktopWindow";
         Title = _config.GetValue<string?>(WindowDefaults.Title) ?? _environment.ApplicationName;
-        Height = _config.GetValue<int?>(WindowDefaults.Height) ?? 768;
-        Width = _config.GetValue<int?>(WindowDefaults.Width) ?? 1366;
-        MinHeight = _config.GetValue<int?>(WindowDefaults.MinHeight) ?? 0;
-        MinWidth = _config.GetValue<int?>(WindowDefaults.MinWidth) ?? 0;
-        MaxHeight = _config.GetValue<int?>(WindowDefaults.MaxHeight) ?? double.PositiveInfinity;
-        MaxWidth = _config.GetValue<int?>(WindowDefaults.MaxWidth) ?? double.PositiveInfinity;
-        UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true);
+        Height = height;
+        Width = width;
+        MinHeight = minHeight;
+        MinWidth = minWidth;
+        MaxHeight = maxHeight;
+        MaxWidth = maxWidth;
+        UseFrame(useFrame);
         ResizeMode = (_config.GetValue<bool?>(WindowDefaults.Resizable) ?? true) ? ResizeMode.CanResize : ResizeMode.NoResize;
         UseIcon(_config.GetValue<string?>(WindowDefaults.Icon) ?? string.Empty);
         Content = WebViewBorder;
@@ -93,8 +153,9 @@ window.addEventListener('DOMContentLoaded', () => {
     private void InitializeWebViewBorder()
     {
         WebViewBorder.Name = "BlazorDesktopWebViewBorder";
-        WebViewBorder.BorderThickness = new Thickness(0, 0, 0, 0);
         WebViewBorder.Child = WebView;
+
+        UpdateWebViewBorderThickness();
     }
 
     private void InitializeWebView()
@@ -124,16 +185,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     private void WindowStateChanged(object? sender, EventArgs e)
     {
-        var useFrame = _config.GetValue<bool?>(WindowDefaults.Frame) ?? true;
-
-        if (WindowState == WindowState.Maximized && !useFrame)
-        {
-            WebViewBorder.BorderThickness = new Thickness(8, 8, 8, 0);
-        }
-        else
-        {
-            WebViewBorder.BorderThickness = new Thickness(0, 0, 0, 0);
-        }
+        UpdateWebViewBorderThickness();
     }
 
     private void WindowSourceInitialized(object? sender, EventArgs e)
@@ -144,6 +196,26 @@ window.addEventListener('DOMContentLoaded', () => {
     private void ThemeChanged(UISettings sender, object args)
     {
         Dispatcher.Invoke(new(UpdateTheme));
+    }
+
+    private void UpdateWebViewBorderThickness()
+    {
+        var useFrame = _config.GetValue<bool?>(WindowDefaults.Frame) ?? true;
+
+        WebViewBorder.BorderThickness = new Thickness(20, 20, 20, 20);
+
+        if (WindowState == WindowState.Maximized && !useFrame)
+        {
+            WebViewBorder.BorderThickness = new Thickness(8, 8, 8, 8);
+        }
+        else if (WindowState != WindowState.Maximized && !useFrame)
+        {
+            WebViewBorder.BorderThickness = new Thickness(3, 0, 3, 3);
+        }
+        else
+        {
+            WebViewBorder.BorderThickness = new Thickness(0, 0, 0, 0);
+        }
     }
 
     private void UpdateTheme()
