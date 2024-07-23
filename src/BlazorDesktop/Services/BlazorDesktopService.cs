@@ -6,7 +6,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
-using BlazorDesktop.Wpf;
 
 namespace BlazorDesktop.Services;
 

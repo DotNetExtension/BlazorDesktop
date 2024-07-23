@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 
-namespace BlazorDesktop.Wpf;
+namespace BlazorDesktop.Services;
 
 /// <summary>
 /// Web view installer.
