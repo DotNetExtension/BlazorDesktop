@@ -49,6 +49,8 @@ public partial class BlazorDesktopWindow : Window
     private readonly IConfiguration _config;
     private readonly IWebHostEnvironment _environment;
     private readonly UISettings _uiSettings;
+    private readonly double[] _zoomSizes =
+        [5, 4, 3, 2.5, 2, 1.75, 1.5, 1.25, 1.1, 1, 0.9, 0.8, 0.75, 0.66, 0.5, 0.33, 0.25];
     private const string DragScript =
 @"
 window.addEventListener('DOMContentLoaded', () => {
@@ -117,6 +119,54 @@ window.addEventListener('DOMContentLoaded', () => {
             WindowState = _fullscreenStoredState;
 
             OnFullscreenChanged?.Invoke(this, IsFullscreen);
+        }
+    }
+
+    /// <summary>
+    /// Resets the zoom level.
+    /// </summary>
+    public void ResetZoom()
+    {
+        WebView.WebView.ZoomFactor = 1;
+    }
+
+    /// <summary>
+    /// Zooms in.
+    /// </summary>
+    public void ZoomIn()
+    {
+        var closest = _zoomSizes.Select(z => new { Zoom = z, Distance = Math.Abs(z - WebView.WebView.ZoomFactor) })
+            .OrderBy(p => p.Distance)
+            .Select(p => p.Zoom)
+            .First();
+
+        var closestIndex = Array.IndexOf(_zoomSizes, closest);
+
+        if (closestIndex > 0)
+        {
+            var newZoomSize = _zoomSizes[closestIndex - 1];
+
+            WebView.WebView.ZoomFactor = newZoomSize;
+        }
+    }
+
+    /// <summary>
+    /// Zooms in.
+    /// </summary>
+    public void ZoomOut()
+    {
+        var closest = _zoomSizes.Select(z => new { Zoom = z, Distance = Math.Abs(z - WebView.WebView.ZoomFactor) })
+            .OrderBy(p => p.Distance)
+            .Select(p => p.Zoom)
+            .First();
+
+        var closestIndex = Array.IndexOf(_zoomSizes, closest);
+
+        if (closestIndex < _zoomSizes.Length - 1)
+        {
+            var newZoomSize = _zoomSizes[closestIndex + 1];
+
+            WebView.WebView.ZoomFactor = newZoomSize;
         }
     }
 
