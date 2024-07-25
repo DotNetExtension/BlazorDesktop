@@ -140,10 +140,10 @@ In terms of handling things such as the close button, you can inject the Window 
 
 Here is an example changing `MainLayout.razor`:
 ```razor
-@using System.Windows
+@using BlazorDesktop.Wpf
 
 @inherits LayoutComponentBase
-@inject Window window
+@inject BlazorDesktopWindow window
 
 <div class="page">
     <div class="sidebar">

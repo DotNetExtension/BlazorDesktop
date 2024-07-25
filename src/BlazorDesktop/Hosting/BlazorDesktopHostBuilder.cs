@@ -123,7 +123,7 @@ public sealed class BlazorDesktopHostBuilder
         Services.AddWpfBlazorWebView();
         Services.AddSingleton<WebViewInstaller>();
         Services.AddSingleton<Application>();
-        Services.AddSingleton<Window, BlazorDesktopWindow>();
+        Services.AddSingleton<BlazorDesktopWindow>();
         Services.AddHostedService<BlazorDesktopService>();
     }
 
