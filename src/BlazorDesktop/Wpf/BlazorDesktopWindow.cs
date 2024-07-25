@@ -36,14 +36,13 @@ public partial class BlazorDesktopWindow : Window
     /// <summary>
     /// If the window is fullscreen.
     /// </summary>
-    public bool IsFullscreen => _fullscreen && WindowState == WindowState.Normal;
+    public bool IsFullscreen { get; private set; }
 
     /// <summary>
     /// Occurs when <see cref="IsFullscreen"/> changes.
     /// </summary>
     public event EventHandler<bool>? OnFullscreenChanged;
 
-    private bool _fullscreen;
     private WindowState _fullscreenStoredState = WindowState.Normal;
     private readonly IServiceProvider _services;
     private readonly IConfiguration _config;
@@ -95,10 +94,10 @@ window.addEventListener('DOMContentLoaded', () => {
     {
         if (WindowStyle == WindowStyle.SingleBorderWindow)
         {
-            _fullscreen = true;
+            IsFullscreen = true;
             _fullscreenStoredState = WindowState;
 
-            UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true, _fullscreen);
+            UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true);
             WindowStyle = WindowStyle.None;
 
             if (WindowState == WindowState.Maximized)
@@ -112,9 +111,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         else
         {
-            _fullscreen = false;
+            IsFullscreen = false;
 
-            UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true, _fullscreen);
+            UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true);
             WindowStyle = WindowStyle.SingleBorderWindow;
             WindowState = _fullscreenStoredState;
 
@@ -240,7 +239,7 @@ window.addEventListener('DOMContentLoaded', () => {
         MinWidth = minWidth;
         MaxHeight = maxHeight;
         MaxWidth = maxWidth;
-        UseFrame(useFrame, _fullscreen);
+        UseFrame(useFrame);
         ResizeMode = (_config.GetValue<bool?>(WindowDefaults.Resizable) ?? true) ? ResizeMode.CanResize : ResizeMode.NoResize;
         UseIcon(_config.GetValue<string?>(WindowDefaults.Icon) ?? string.Empty);
         Content = WebViewBorder;
@@ -312,7 +311,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (WindowState == WindowState.Maximized && !useFrame)
         {
-            if (_fullscreen)
+            if (IsFullscreen)
             {
                 WebViewBorder.BorderThickness = new Thickness(7, 7, 7, 7);
             }
@@ -345,11 +344,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    private void UseFrame(bool frame, bool fullscreen)
+    private void UseFrame(bool frame)
     {
         if (!frame)
         {
-            if (fullscreen)
+            if (IsFullscreen)
             {
                 WindowChrome.SetWindowChrome(this, new() { NonClientFrameEdges = NonClientFrameEdges.None });
             }
