@@ -310,9 +310,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
         WebViewBorder.BorderThickness = new Thickness(20, 20, 20, 20);
 
-        if (WindowState == WindowState.Maximized && !useFrame && !_fullscreen)
+        if (WindowState == WindowState.Maximized && !useFrame)
         {
-            WebViewBorder.BorderThickness = new Thickness(8, 8, 8, 8);
+            if (_fullscreen)
+            {
+                WebViewBorder.BorderThickness = new Thickness(7, 7, 7, 7);
+            }
+            else
+            {
+                WebViewBorder.BorderThickness = new Thickness(8, 8, 8, 8);
+            }
         }
         else if (WindowState != WindowState.Maximized && !useFrame)
         {
