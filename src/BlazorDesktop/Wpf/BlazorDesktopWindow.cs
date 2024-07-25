@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -32,6 +33,18 @@ public partial class BlazorDesktopWindow : Window
     /// </summary>
     public Border WebViewBorder { get; }
 
+    /// <summary>
+    /// If the window is fullscreen.
+    /// </summary>
+    public bool IsFullscreen => _fullscreen && WindowState == WindowState.Normal;
+
+    /// <summary>
+    /// Occurs when <see cref="IsFullscreen"/> changes.
+    /// </summary>
+    public event EventHandler<bool>? OnFullscreenChanged;
+
+    private bool _fullscreen;
+    private WindowState _fullscreenStoredState = WindowState.Normal;
     private readonly IServiceProvider _services;
     private readonly IConfiguration _config;
     private readonly IWebHostEnvironment _environment;
@@ -71,6 +84,40 @@ window.addEventListener('DOMContentLoaded', () => {
         InitializeWebViewBorder();
         InitializeWebView();
         InitializeTheming();
+    }
+
+    /// <summary>
+    /// Toggles fullscreen mode.
+    /// </summary>
+    public void ToggleFullScreen()
+    {
+        if (WindowStyle == WindowStyle.SingleBorderWindow)
+        {
+            _fullscreen = true;
+            _fullscreenStoredState = WindowState;
+
+            UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true, _fullscreen);
+            WindowStyle = WindowStyle.None;
+
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+            }
+
+            WindowState = WindowState.Maximized;
+
+            OnFullscreenChanged?.Invoke(this, IsFullscreen);
+        }
+        else
+        {
+            _fullscreen = false;
+
+            UseFrame(_config.GetValue<bool?>(WindowDefaults.Frame) ?? true, _fullscreen);
+            WindowStyle = WindowStyle.SingleBorderWindow;
+            WindowState = _fullscreenStoredState;
+
+            OnFullscreenChanged?.Invoke(this, IsFullscreen);
+        }
     }
 
     private void InitializeWindow()
@@ -143,11 +190,12 @@ window.addEventListener('DOMContentLoaded', () => {
         MinWidth = minWidth;
         MaxHeight = maxHeight;
         MaxWidth = maxWidth;
-        UseFrame(useFrame);
+        UseFrame(useFrame, _fullscreen);
         ResizeMode = (_config.GetValue<bool?>(WindowDefaults.Resizable) ?? true) ? ResizeMode.CanResize : ResizeMode.NoResize;
         UseIcon(_config.GetValue<string?>(WindowDefaults.Icon) ?? string.Empty);
         Content = WebViewBorder;
         StateChanged += WindowStateChanged;
+        KeyDown += WindowKeyDown;
     }
 
     private void InitializeWebViewBorder()
@@ -188,6 +236,14 @@ window.addEventListener('DOMContentLoaded', () => {
         UpdateWebViewBorderThickness();
     }
 
+    private void WindowKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.F11)
+        {
+            ToggleFullScreen();
+        }
+    }
+
     private void WindowSourceInitialized(object? sender, EventArgs e)
     {
         UpdateTheme();
@@ -204,7 +260,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         WebViewBorder.BorderThickness = new Thickness(20, 20, 20, 20);
 
-        if (WindowState == WindowState.Maximized && !useFrame)
+        if (WindowState == WindowState.Maximized && !useFrame && !_fullscreen)
         {
             WebViewBorder.BorderThickness = new Thickness(8, 8, 8, 8);
         }
@@ -232,11 +288,18 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    private void UseFrame(bool frame)
+    private void UseFrame(bool frame, bool fullscreen)
     {
         if (!frame)
         {
-            WindowChrome.SetWindowChrome(this, new() { NonClientFrameEdges = NonClientFrameEdges.Bottom | NonClientFrameEdges.Left | NonClientFrameEdges.Right });
+            if (fullscreen)
+            {
+                WindowChrome.SetWindowChrome(this, new() { NonClientFrameEdges = NonClientFrameEdges.None });
+            }
+            else
+            {
+                WindowChrome.SetWindowChrome(this, new() { NonClientFrameEdges = NonClientFrameEdges.Bottom | NonClientFrameEdges.Left | NonClientFrameEdges.Right });
+            }
         }
     }
 

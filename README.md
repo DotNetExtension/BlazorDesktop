@@ -169,5 +169,7 @@ Here is an example changing `MainLayout.razor`:
 }
 ```
 
+To support fullscreen mode, you should also hide your custom window chrome when in fullscreen. You can check the current fullscreen status using the `IsFullscreen` property on the window. You can also monitor for it changing using the `OnFullscreenChanged` event.
+
 ## Issues
 Under the hood, Blazor Desktop uses WebView2 which has limitations right now with composition. Due to this, if you disable the window border through the `Window.UseFrame(false)` API, the top edge of the window is unusable as a resizing zone for the window. However all the other corners and edges work.

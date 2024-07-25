@@ -2,6 +2,7 @@
 // The .NET Extension Contributors licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using BlazorDesktop.Wpf;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Windows;
@@ -68,7 +69,7 @@ public partial class BlazorDesktopService : IHostedService, IDisposable
     private void ApplicationThread()
     {
         var app = _services.GetRequiredService<Application>();
-        var mainWindow = _services.GetRequiredService<Window>();
+        var mainWindow = _services.GetRequiredService<BlazorDesktopWindow>();
 
         app.Startup += OnApplicationStartup;
         app.Exit += OnApplicationExit;
