@@ -4,6 +4,6 @@
     <NoWarn>NU1507</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.90" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.91" />
   </ItemGroup>
 </Project>
