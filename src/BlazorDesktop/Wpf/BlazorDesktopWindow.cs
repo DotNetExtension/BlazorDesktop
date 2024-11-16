@@ -334,12 +334,12 @@ window.addEventListener('DOMContentLoaded', () => {
     {
         if (ShouldSystemUseDarkMode())
         {
-            _ = DwmSetWindowAttribute(new WindowInteropHelper(this).Handle, 20, [1], Marshal.SizeOf(typeof(int)));
+            _ = DwmSetWindowAttribute(new WindowInteropHelper(this).Handle, 20, [1], Marshal.SizeOf<int>());
             Background = new SolidColorBrush(Color.FromRgb(25, 25, 25));
         }
         else
         {
-            _ = DwmSetWindowAttribute(new WindowInteropHelper(this).Handle, 20, [0], Marshal.SizeOf(typeof(int)));
+            _ = DwmSetWindowAttribute(new WindowInteropHelper(this).Handle, 20, [0], Marshal.SizeOf<int>());
             Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
         }
     }
