@@ -168,6 +168,8 @@ Here is an example changing `MainLayout.razor`:
     }
 }
 ```
+> [!NOTE]
+> The `BlazorDesktopWindow` inherits from the WPF `Window` class, as such you use WPF apis to manipulate it. WPF documentation for the Window class can be found [here](https://learn.microsoft.com/en-us/dotnet/api/system.windows.window?view=windowsdesktop-9.0).
 
 To support fullscreen mode, you should also hide your custom window chrome when in fullscreen. You can check the current fullscreen status using the `IsFullscreen` property on the window. You can also monitor for it changing using the `OnFullscreenChanged` event.
 
