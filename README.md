@@ -103,8 +103,10 @@ It is also possible to configure these values through `appsettings.json` like so
   }
 }
 ```
-
-**The `Window` object itself is also made available inside of the DI container, so you can access all properties on it by using the inject Razor keyword or requesting it through the constructor of a class added as a service.**
+> [!NOTE]
+> The `Window` object itself is also made available inside of the DI container by injecting `BlazorDesktopWindow`, so you can access all properties on it by using the inject Razor keyword or requesting it through the constructor of a class added as a service.
+> The `BlazorDesktopWindow` inherits from the WPF `Window` class, as such you use WPF apis to manipulate it. WPF documentation for the Window class can be found [here](https://learn.microsoft.com/en-us/dotnet/api/system.windows.window?view=windowsdesktop-9.0).
+> Examples of usage can be found below.
 
 ## Custom Window Chrome & Draggable Regions
 It is possible to make your own window chrome for Blazor Desktop apps. As an example base setup you could do the following:
@@ -168,10 +170,28 @@ Here is an example changing `MainLayout.razor`:
     }
 }
 ```
-> [!NOTE]
-> The `BlazorDesktopWindow` inherits from the WPF `Window` class, as such you use WPF apis to manipulate it. WPF documentation for the Window class can be found [here](https://learn.microsoft.com/en-us/dotnet/api/system.windows.window?view=windowsdesktop-9.0).
-
 To support fullscreen mode, you should also hide your custom window chrome when in fullscreen. You can check the current fullscreen status using the `IsFullscreen` property on the window. You can also monitor for it changing using the `OnFullscreenChanged` event.
+
+## Changing Window Properties During Startup
+It is possible to customize window startup behaviors for Blazor Desktop apps. As an example base setup you could do the following:
+
+Using the base template, if you were to edit `MainLayout.razor` and inject the `BlazorDesktopWindow` you can have the window be maximized on launch using Blazor's `OnInitialized` lifecycle method:
+```razor
+@using BlazorDesktop.Wpf
+@using System.Windows
+@inherits LayoutComponentBase
+
+@inject BlazorDesktopWindow window
+
+...
+
+@code {
+    protected override void OnInitialized()
+    {
+        window.WindowState = WindowState.Maximized;
+    }
+}
+```
 
 ## Issues
 Under the hood, Blazor Desktop uses WebView2 which has limitations right now with composition. Due to this, if you disable the window border through the `Window.UseFrame(false)` API, the top edge of the window is unusable as a resizing zone for the window. However all the other corners and edges work.
