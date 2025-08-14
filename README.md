@@ -46,6 +46,21 @@ You can add root components just the same as well as add additional services you
 
 There are however a few additional APIs and services that have been made available to help when working in the context of a WPF window.
 
+## Browser Dev Tools
+Dev tools are setup for use out of the box in `Program.cs` with the following snippet:
+
+
+```csharp
+if (builder.HostEnvironment.IsDevelopment())
+{
+    builder.UseDeveloperTools();
+}
+```
+
+This means you can press `CTRL` + `SHIFT` + `I` to open the dev tools so long as you are in a development environment.
+
+It is highly advised to review over the [WPF](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/), [Blazor](https://learn.microsoft.com/en-us/aspnet/core/blazor/?view=aspnetcore-9.0), and [Blazor Hybrid](https://learn.microsoft.com/en-us/aspnet/core/blazor/hybrid/?view=aspnetcore-9.0) docs when using Blazor Desktop as it uses all three of those technologies combined.
+
 ## Window Utilities
 The window can have most of its common configuration done through the `BlazorDesktopHostBuilder.Window` APIs before you build your app in `Program.cs`.
 
